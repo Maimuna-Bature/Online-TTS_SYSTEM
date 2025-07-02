@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Online Python Text-to-Speech System</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+    <body>
+        <div class="container">
+            <h1>Online Text-to-Speech Converter</h1>
+            <!-- Added autocomplete="off" for better UX -->
+            <form method="POST" enctype="multipart/form-data" autocomplete="off">
+                <!-- Text Input Area -->
+                <div class="form-group">
+                    <label for="text">Enter Text:</label>
+                    <textarea id="text" name="text" rows="8" placeholder="Type or paste your text here....">{{ processed_text|default('') }}</textarea>
+                </div>
+
+                <!-- File Upload Area -->
+                <div class="file-upload-group">
+                    <label for="file" class="file-upload-label">Or Upload File (.txt, .docx):</label>
+                    <input type="file" id="file" name="file" accept=".txt,.docx">
+                    <span id="file-name">No file chosen</span>
+                </div>
+
+                <!-- Language Selection -->
+                <div class="form-group">
+                    <label for="voice">Select Voice:</label>
+                    <select name="voice" id="voice">
+                        {% for label, voice in edge_tts_voices.items() %}
+                            <option value="{{ voice }}" {% if selected_voice == voice %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Speed Selection -->
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="slow_speech" name="slow_speech">
+                    <label for="slow_speech">Slow Speech</label>
+                </div>
+
+                <!-- Add this inside your <form> before the submit button -->
+                <div class="form-group">
+                    <label for="custom_filename">Custom Audio File Name:</label>
+                    <input type="text" id="custom_filename" name="custom_filename" placeholder="Enter file name (optional)" value="{{ custom_filename|default('speech') }}">
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit">Convert to Speech & Download</button>
+            </form>
+
+            <!-- Fixed error variable name to match Flask code -->
+            {% if error_message %}
+                <p class="error-message">{{ error_message }}</p>
+            {% endif %}
+
+            <!-- After the form, add this to show the audio player and download button -->
+            {% if audio_filename %}
+                <div class="audio-preview">
+                    <h3>Preview Audio:</h3>
+                    <audio controls>
+                        <source src="{{ url_for('serve_audio', audio_filename=audio_filename) }}" type="audio/mp3">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <br>
+                    <a href="{{ url_for('download_audio', audio_filename=audio_filename, name=custom_filename) }}" class="download-btn">
+                        Download Audio
+                    </a>
+                </div>
+            {% endif %}
+
+            <p class="footer-note">
+                This system uses online Text-to-Speech (Edge-TTS) and requires an active internet connection. Audio files will be downloaded as MP3.
+            </p>
+        </div>
+
+        <script src="{{ url_for('static', filename='script.js') }}"></script>
+        <script>
+        // Optional: Show selected file name
+        document.getElementById('file').addEventListener('change', function(){
+            var fileName = this.files[0] ? this.files[0].name : 'No file chosen';
+            document.getElementById('file-name').textContent = fileName;
+        });
+
+        window.addEventListener('DOMContentLoaded', function() {
+            if (window.location.search.length > 0) {
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,193 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #e0f2f7;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    color: #333;
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    box-sizing: border-box;
+    margin-top: 50px;
+}
+
+h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    font-size: 2.2em;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #4a69bd;
+}
+
+textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 1px solid #c8d6e5;
+    border-radius: 8px;
+    font-size: 1em;
+    resize: vertical;
+    min-height: 120px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+    max-width: 100%;
+    word-wrap: break-word;
+}
+
+textarea:focus,
+select:focus,
+button[type="submit"]:focus,
+.file-upload-label:focus {
+    outline: 2px solid #4a69bd;
+    outline-offset: 2px;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #c8d6e5;
+    border-radius: 8px;
+    font-size: 1em;
+    background-color: #ffffff;
+    color: #333;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.checkbox-group label {
+    margin-left: 10px;
+    font-weight: normal;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-bottom: 0;
+    height: 20px;
+    width: 20px;
+    accent-color: #4a69bd;
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 12px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+button[type="submit"]:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+button[type="submit"]:active {
+    transform: translateY(0);
+}
+
+button.loading {
+    background-color: #ffc107;
+    color: #212529;
+    cursor: wait;
+}
+
+.file-upload-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.file-upload-label {
+    display: inline-block;
+    background-color: #4a69bd;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.file-upload-label:hover {
+    background-color: #3b5cb0;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+#file-name {
+    margin-top: 5px;
+    font-style: italic;
+    color: #4a69bd;
+    font-weight: 500;
+    text-align: center;
+}
+
+.error-message {
+    color: #dc3545;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.footer-note {
+    font-size: 0.9em;
+    color: #777;
+    margin-top: 30px;
+    text-align: center;
+    border-top: 1px dashed #ccc;
+    padding-top: 15px;
+}
+
+.audio-preview {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.download-btn {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #4a69bd;
+    color: #fff;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.download-btn:hover {
+    background-color: #3b5cb0;
+}
