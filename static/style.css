@@ -1,82 +1,115 @@
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: #f5f7fa;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    background: #e6ecf0;
     min-height: 100vh;
-    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Roboto', Arial, sans-serif;
+}
+
+.mobile-frame {
+    background: #fff;
+    border-radius: 32px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    width: 350px;
+    max-width: 95vw;
+    margin: 32px auto;
+    overflow: hidden;
+    border: 2px solid #d1d5db;
+    display: flex;
+    flex-direction: column;
+    min-height: 600px;
+}
+
+.top-bar {
+    background: #2d3748;
+    color: #fff;
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.app-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.user-icon {
+    font-size: 1.4rem;
 }
 
 .container {
-    background: #fff;
-    padding: 32px 28px 24px 28px;
-    border-radius: 16px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-    width: 100%;
-    max-width: 500px;
-    box-sizing: border-box;
-    margin-top: 40px;
+    padding: 24px 18px 18px 18px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
-h1 {
+h1, h2 {
     text-align: center;
     color: #2d3748;
-    margin-bottom: 24px;
+    margin-bottom: 18px;
     font-weight: 700;
 }
 
+.card-section {
+    background: #f7fafc;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    padding: 18px 12px 12px 12px;
+    margin-bottom: 18px;
+}
+
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
 label {
-    display: block;
-    margin-bottom: 8px;
     font-weight: 500;
     color: #444;
+    display: block;
+    margin-bottom: 6px;
 }
 
-input[type="text"], textarea, select {
+input[type="text"], input[type="file"], select, textarea {
     width: 100%;
-    padding: 10px;
-    margin-top: 6px;
-    margin-bottom: 18px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
+    padding: 8px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
     font-size: 1rem;
-    background: #f9f9f9;
-    transition: border 0.2s;
-}
-
-input[type="text"]:focus, textarea:focus, select:focus {
-    border: 1.5px solid #3182ce;
-    outline: none;
+    background: #f9fafb;
+    margin-bottom: 4px;
 }
 
 textarea {
     resize: vertical;
-    min-height: 120px;
+    min-height: 80px;
 }
 
 button[type="submit"], .download-btn {
-    background: #3182ce;
+    background: #0077cc;
     color: #fff;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     padding: 12px 0;
     width: 100%;
     font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
     margin-top: 10px;
-    transition: background 0.2s;
+    transition: background 0.2s, transform 0.1s;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(0,119,204,0.08);
 }
 
 button[type="submit"]:hover, .download-btn:hover {
-    background: #225ea8;
+    background: #005fa3;
+    transform: translateY(-2px) scale(1.01);
 }
 
 button[type="submit"]:active {
@@ -141,6 +174,27 @@ input[type="file"] {
 }
 
 .audio-preview {
-    margin-top: 24px;
+    margin-top: 18px;
     text-align: center;
+}
+
+/* Optional: Bottom navigation bar for mobile look */
+.bottom-nav {
+    background: #f7fafc;
+    border-top: 1.5px solid #d1d5db;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0 6px 0;
+    border-radius: 0 0 28px 28px;
+}
+
+.bottom-nav .nav-icon {
+    font-size: 1.5rem;
+    color: #a0aec0;
+    transition: color 0.2s;
+}
+
+.bottom-nav .nav-icon.active {
+    color: #3182ce;
 }
