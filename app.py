@@ -85,20 +85,18 @@ def index():
                 audio_filename = f"{int(time.time())}_{os.getpid()}.mp3"
                 audio_path = os.path.join(AUDIO_UPLOAD_TEMP_DIR, audio_filename)
                 asyncio.run(synthesize_edge_tts(processed_text, selected_voice, audio_path))
-                # Store info in session or pass as query params
-                return redirect(url_for(
-                    'index',
-                    audio_filename=audio_filename,
-                    custom_filename=custom_filename,
-                    selected_voice=selected_voice
-                ))
+                # Store info in session
+                session['audio_filename'] = audio_filename
+                session['custom_filename'] = custom_filename
+                session['selected_voice'] = selected_voice
+                return redirect(url_for('index'))
             except Exception as e:
                 error_message = f"TTS Conversion Error: {e}."
 
     # GET request or after redirect
-    audio_filename = request.args.get('audio_filename')
-    custom_filename = request.args.get('custom_filename', '')
-    selected_voice = request.args.get('selected_voice', selected_voice)
+    audio_filename = session.pop('audio_filename', None)
+    custom_filename = session.pop('custom_filename', '')
+    selected_voice = session.pop('selected_voice', list(EDGE_TTS_VOICES.values())[0])
 
     return render_template(
         'index.html',
