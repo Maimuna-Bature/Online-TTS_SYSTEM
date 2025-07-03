@@ -6,7 +6,7 @@ import asyncio
 import edge_tts
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Needed for session management
+app.secret_key = os.environ.get('SECRET_KEY', 'default_secret_key')
 
 #define a temporary directory for audio fils and upoaded files
 AUDIO_UPLOAD_TEMP_DIR = os.path.join(tempfile.gettempdir(), 'tts_app_temp_files')

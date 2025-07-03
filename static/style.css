@@ -1,8 +1,8 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
-    padding: 20px;
-    background-color: #e0f2f7;
+    padding: 0;
+    background: #f5f7fa;
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -11,21 +11,21 @@ body {
 }
 
 .container {
-    background-color: #ffffff;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    background: #fff;
+    padding: 32px 28px 24px 28px;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
     width: 100%;
-    max-width: 600px;
+    max-width: 500px;
     box-sizing: border-box;
-    margin-top: 50px;
+    margin-top: 40px;
 }
 
 h1 {
     text-align: center;
-    color: #2c3e50;
-    margin-bottom: 30px;
-    font-size: 2.2em;
+    color: #2d3748;
+    margin-bottom: 24px;
+    font-weight: 700;
 }
 
 .form-group {
@@ -35,76 +35,48 @@ h1 {
 label {
     display: block;
     margin-bottom: 8px;
-    font-weight: bold;
-    color: #4a69bd;
+    font-weight: 500;
+    color: #444;
+}
+
+input[type="text"], textarea, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    margin-bottom: 18px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    background: #f9f9f9;
+    transition: border 0.2s;
+}
+
+input[type="text"]:focus, textarea:focus, select:focus {
+    border: 1.5px solid #3182ce;
+    outline: none;
 }
 
 textarea {
-    width: calc(100% - 20px);
-    padding: 10px;
-    border: 1px solid #c8d6e5;
-    border-radius: 8px;
-    font-size: 1em;
     resize: vertical;
     min-height: 120px;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
-    max-width: 100%;
-    word-wrap: break-word;
 }
 
-textarea:focus,
-select:focus,
-button[type="submit"]:focus,
-.file-upload-label:focus {
-    outline: 2px solid #4a69bd;
-    outline-offset: 2px;
-}
-
-select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #c8d6e5;
-    border-radius: 8px;
-    font-size: 1em;
-    background-color: #ffffff;
-    color: #333;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-}
-
-.checkbox-group {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.checkbox-group label {
-    margin-left: 10px;
-    font-weight: normal;
-}
-
-.checkbox-group input[type="checkbox"] {
-    margin-bottom: 0;
-    height: 20px;
-    width: 20px;
-    accent-color: #4a69bd;
-}
-
-button[type="submit"] {
-    width: 100%;
-    padding: 12px 20px;
-    background-color: #28a745;
-    color: white;
+button[type="submit"], .download-btn {
+    background: #3182ce;
+    color: #fff;
     border: none;
-    border-radius: 8px;
-    font-size: 1.1em;
+    border-radius: 6px;
+    padding: 12px 0;
+    width: 100%;
+    font-size: 1.1rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+    transition: background 0.2s;
 }
 
-button[type="submit"]:hover {
-    background-color: #218838;
-    transform: translateY(-2px);
+button[type="submit"]:hover, .download-btn:hover {
+    background: #225ea8;
 }
 
 button[type="submit"]:active {
@@ -152,42 +124,23 @@ input[type="file"] {
 }
 
 .error-message {
-    color: #dc3545;
-    background-color: #f8d7da;
-    border: 1px solid #f5c6cb;
+    color: #e53e3e;
+    background: #fff5f5;
+    border: 1px solid #feb2b2;
+    border-radius: 6px;
     padding: 10px;
-    border-radius: 8px;
+    margin-top: 18px;
     text-align: center;
-    margin-top: 20px;
-    font-weight: bold;
 }
 
 .footer-note {
-    font-size: 0.9em;
-    color: #777;
-    margin-top: 30px;
+    margin-top: 32px;
     text-align: center;
-    border-top: 1px dashed #ccc;
-    padding-top: 15px;
+    color: #888;
+    font-size: 0.95rem;
 }
 
 .audio-preview {
-    margin-top: 30px;
+    margin-top: 24px;
     text-align: center;
-}
-
-.download-btn {
-    display: inline-block;
-    margin-top: 15px;
-    padding: 10px 20px;
-    background-color: #4a69bd;
-    color: #fff;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background-color 0.3s;
-}
-
-.download-btn:hover {
-    background-color: #3b5cb0;
 }
