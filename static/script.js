@@ -34,5 +34,14 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.disabled = true; // Disable the button to prevent multiple submissions
         }
     });
+
+    document.getElementById('file').addEventListener('change', function(e) {
+        const fileNameSpan = document.getElementById('file-name');
+        if (this.files && this.files.length > 0) {
+            fileNameSpan.textContent = "Selected: " + this.files[0].name;
+        } else {
+            fileNameSpan.textContent = "";
+        }
+    });
 });
 
