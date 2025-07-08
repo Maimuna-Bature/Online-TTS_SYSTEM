@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const textArea = document.getElementById('text'); //gets the texterea element
     const form = document.querySelector('form'); //gets the form element
     const submitBtn = form.querySelector('button[type="submit"]');
+    const uploadText = document.getElementById('upload-text');
 
     // Show selected file name
     fileInput.addEventListener('change', function() {
@@ -35,13 +36,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    document.getElementById('file').addEventListener('change', function(e) {
-        const uploadText = document.getElementById('upload-text');
-        if (this.files && this.files.length > 0) {
-            uploadText.innerHTML = `<b>${this.files[0].name}</b> selected`;
-        } else {
-            uploadText.innerHTML = `Upload <b>.txt</b> or <b>.docx</b> file<br><small>(Click or drag to upload)</small>`;
-        }
-    });
+    if (fileInput && uploadText) {
+        fileInput.addEventListener('change', function() {
+            if (this.files && this.files.length > 0) {
+                uploadText.innerHTML = `<b>${this.files[0].name}</b> selected`;
+            } else {
+                uploadText.innerHTML = `Upload <b>.txt</b> or <b>.docx</b> file<br><small>(Click to upload)</small>`;
+            }
+        });
+    }
 });
 
