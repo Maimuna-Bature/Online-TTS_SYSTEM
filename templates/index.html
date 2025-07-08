@@ -8,34 +8,29 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="mobile-frame">
-        <div class="top-bar">
-            <span class="app-title">TTS SYSTEM</span>
-            <span class="user-icon">&#128100;</span>
-        </div>
-        <div class="container">
-            <h2>Text-to-Speech Converter</h2>
-            <div class="card-section">
-                <form method="POST" enctype="multipart/form-data" autocomplete="off">
-                    <div class="form-group">
-                        <label for="text">Enter Text:</label>
-                        <textarea id="text" name="text" rows="5" placeholder="Type or paste your text here...">{{ processed_text|default('') }}</textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="file">Or Upload File (.txt, .docx):</label>
-                        <input type="file" id="file" name="file" accept=".txt,.docx">
-                    </div>
-                    <div class="form-group">
-                        <label for="voice">Voice:</label>
-                        <select id="voice" name="voice">
-                            {% for label, value in edge_tts_voices.items() %}
-                            <option value="{{ value }}" {% if selected_voice == value %}selected{% endif %}>{{ label }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <button type="submit">Convert</button>
-                </form>
-            </div>
+    <div class="main-bg">
+        <div class="tts-card">
+            <h1 class="tts-title">Text-to-Speech</h1>
+            <form method="POST" enctype="multipart/form-data" autocomplete="off">
+                <label class="tts-label" for="text">Enter Text</label>
+                <textarea id="text" name="text" rows="4" placeholder="Type or paste your text here...">{{ processed_text|default('') }}</textarea>
+                
+                <div class="upload-section">
+                    <label for="file" class="upload-label">
+                        <span class="upload-icon">&#128194;</span>
+                        <span>Upload <b>.txt</b> or <b>.docx</b> file<br><small>(Click or drag to upload)</small></span>
+                        <input type="file" id="file" name="file" accept=".txt,.docx" hidden>
+                    </label>
+                </div>
+
+                <label class="tts-label" for="voice">Voice</label>
+                <select id="voice" name="voice">
+                    {% for label, value in edge_tts_voices.items() %}
+                    <option value="{{ value }}" {% if selected_voice == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="tts-btn">Convert</button>
+            </form>
             {% if audio_filename %}
             <div class="audio-preview">
                 <audio controls>

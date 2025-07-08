@@ -1,10 +1,16 @@
-body {
-    background: #e6ecf0;
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', Arial, sans-serif;
+}
+
+.main-bg {
+    background: #0a2239;
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Roboto', Arial, sans-serif;
 }
 
 .mobile-frame {
@@ -197,4 +203,122 @@ input[type="file"] {
 
 .bottom-nav .nav-icon.active {
     color: #3182ce;
+}
+
+.tts-card {
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    width: 400px;
+    max-width: 95vw;
+    padding: 36px 32px 28px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.tts-title {
+    color: #0a2239;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 18px;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.tts-label {
+    color: #0a2239;
+    font-weight: 600;
+    margin-bottom: 6px;
+    margin-top: 18px;
+    font-size: 1.1rem;
+}
+
+textarea, select {
+    width: 100%;
+    padding: 12px;
+    border: 1.5px solid #b3c2d6;
+    border-radius: 8px;
+    font-size: 1rem;
+    background: #f7fafc;
+    margin-bottom: 10px;
+    resize: vertical;
+    transition: border 0.2s;
+}
+
+textarea:focus, select:focus {
+    border: 1.5px solid #1e90ff;
+    outline: none;
+}
+
+.upload-section {
+    margin: 18px 0 10px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.upload-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #e3f0ff;
+    border: 2px dashed #1e90ff;
+    border-radius: 10px;
+    padding: 18px 0;
+    width: 100%;
+    cursor: pointer;
+    transition: background 0.2s, border 0.2s;
+    font-size: 1.1rem;
+    color: #0a2239;
+    text-align: center;
+}
+
+.upload-label:hover {
+    background: #d0e7ff;
+    border-color: #0a2239;
+}
+
+.upload-icon {
+    font-size: 2.2rem;
+    margin-bottom: 8px;
+    color: #1e90ff;
+}
+
+.tts-btn, .download-btn {
+    background: #1e90ff;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 14px 0;
+    width: 100%;
+    font-size: 1.15rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 16px;
+    margin-bottom: 0;
+    transition: background 0.2s, transform 0.1s;
+    box-shadow: 0 2px 8px rgba(30,144,255,0.08);
+    text-decoration: none;
+    text-align: center;
+    display: block;
+}
+
+.tts-btn:hover, .download-btn:hover {
+    background: #0a2239;
+    transform: translateY(-2px) scale(1.01);
+}
+
+.audio-preview {
+    margin-top: 22px;
+    text-align: center;
+}
+
+.error-message {
+    color: #e53e3e;
+    background: #fff5f5;
+    border: 1px solid #feb2b2;
+    border-radius: 6px;
+    padding: 10px;
+    margin-top: 18px;
+    text-align: center;
 }
