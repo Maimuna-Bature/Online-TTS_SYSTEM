@@ -36,11 +36,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     document.getElementById('file').addEventListener('change', function(e) {
-        const fileNameSpan = document.getElementById('file-name');
+        const uploadText = document.getElementById('upload-text');
         if (this.files && this.files.length > 0) {
-            fileNameSpan.textContent = "Selected: " + this.files[0].name;
+            uploadText.innerHTML = `<b>${this.files[0].name}</b> selected`;
         } else {
-            fileNameSpan.textContent = "";
+            uploadText.innerHTML = `Upload <b>.txt</b> or <b>.docx</b> file<br><small>(Click or drag to upload)</small>`;
         }
     });
 });
