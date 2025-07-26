@@ -1,246 +1,39 @@
+/* Reset some default styles */
 body, html {
-    height: 100%;
     margin: 0;
     padding: 0;
-    font-family: 'Roboto', Arial, sans-serif;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #0a2239;
+    min-height: 100vh;
 }
 
+/* Main container centers content */
 .main-bg {
-    background: #0a2239;
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    background: #0a2239;
+    padding: 24px 8px;
 }
 
-.mobile-frame {
-    background: #fff;
-    border-radius: 32px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-    width: 350px;
-    max-width: 95vw;
-    margin: 32px auto;
-    overflow: hidden;
-    border: 2px solid #d1d5db;
-    display: flex;
-    flex-direction: column;
-    min-height: 600px;
-}
-
-.top-bar {
-    background: #2d3748;
-    color: #fff;
-    padding: 18px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.app-title {
-    font-size: 1.2rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-}
-
-.user-icon {
-    font-size: 1.4rem;
-}
-
-.container {
-    padding: 24px 18px 18px 18px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-}
-
-h1, h2 {
-    text-align: center;
-    color: #2d3748;
-    margin-bottom: 18px;
-    font-weight: 700;
-}
-
-.card-section {
-    background: #f7fafc;
-    border-radius: 16px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-    padding: 18px 12px 12px 12px;
-    margin-bottom: 18px;
-}
-
-.form-group {
-    margin-bottom: 16px;
-}
-
-label {
-    font-weight: 500;
-    color: #444;
-    display: block;
-    margin-bottom: 6px;
-}
-
-input[type="text"], input[type="file"], select, textarea {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
-    font-size: 1rem;
-    background: #f9fafb;
-    margin-bottom: 4px;
-}
-
-textarea {
-    resize: vertical;
-    min-height: 80px;
-}
-
-button[type="submit"], .download-btn {
-    background: #0077cc;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 12px 0;
-    width: 100%;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: background 0.2s, transform 0.1s;
-    display: block;
-    text-align: center;
-    text-decoration: none;
-    box-shadow: 0 2px 8px rgba(0,119,204,0.08);
-}
-
-button[type="submit"]:hover, .download-btn:hover {
-    background: #005fa3;
-    transform: translateY(-2px) scale(1.01);
-}
-
-button[type="submit"]:active {
-    transform: translateY(0);
-}
-
-button.loading {
-    background-color: #ffc107;
-    color: #212529;
-    cursor: wait;
-}
-
-.file-upload-group {
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-}
-
-.file-upload-label {
-    display: inline-block;
-    background-color: #4a69bd;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.file-upload-label:hover {
-    background-color: #3b5cb0;
-}
-
-input[type="file"] {
-    display: none;
-}
-
-#file-name {
-    margin-top: 5px;
-    font-style: italic;
-    color: #4a69bd;
-    font-weight: 500;
-    text-align: center;
-}
-
-.file-name {
-    display: block;
-    margin-top: 8px;
-    color: #1e90ff;
-    font-weight: 500;
-    text-align: center;
-    font-size: 1rem;
-}
-
-.error-message {
-    color: #e53e3e;
-    background: #fff5f5;
-    border: 1px solid #feb2b2;
-    border-radius: 6px;
-    padding: 10px;
-    margin-top: 18px;
-    text-align: center;
-}
-
-.success-message {
-    color: #218838;
-    background: #e6ffed;
-    border: 1px solid #b7f5c5;
-    border-radius: 6px;
-    padding: 10px;
-    margin-top: 18px;
-    text-align: center;
-    font-weight: 600;
-    font-size: 1.08rem;
-}
-
-.footer-note {
-    margin-top: 32px;
-    text-align: center;
-    color: #888;
-    font-size: 0.95rem;
-}
-
-.audio-preview {
-    margin-top: 18px;
-    text-align: center;
-}
-
-/* Optional: Bottom navigation bar for mobile look */
-.bottom-nav {
-    background: #f7fafc;
-    border-top: 1.5px solid #d1d5db;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 10px 0 6px 0;
-    border-radius: 0 0 28px 28px;
-}
-
-.bottom-nav .nav-icon {
-    font-size: 1.5rem;
-    color: #a0aec0;
-    transition: color 0.2s;
-}
-
-.bottom-nav .nav-icon.active {
-    color: #3182ce;
-}
-
+/* Responsive card */
 .tts-card {
     background: #fff;
     border-radius: 18px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-    width: 400px;
-    max-width: 95vw;
-    padding: 36px 32px 28px 32px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    width: 100%;
+    max-width: 420px;
+    padding: 32px 20px 24px 20px;
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    margin: 0 auto;
 }
 
 .tts-title {
     color: #0a2239;
-    font-size: 2.2rem;
+    font-size: 2rem;
     font-weight: 700;
     margin-bottom: 18px;
     text-align: center;
@@ -257,7 +50,7 @@ input[type="file"] {
 
 textarea, select {
     width: 100%;
-    padding: 12px;
+    padding: 14px;
     border: 1.5px solid #b3c2d6;
     border-radius: 8px;
     font-size: 1rem;
@@ -272,8 +65,15 @@ textarea:focus, select:focus {
     outline: none;
 }
 
-.upload-section {
+.upload-container {
+    background: #f0f6ff;
+    border-radius: 12px;
+    padding: 18px 10px;
     margin: 18px 0 10px 0;
+    box-shadow: 0 2px 8px rgba(30,144,255,0.05);
+}
+
+.upload-section {
     display: flex;
     justify-content: center;
 }
@@ -305,12 +105,16 @@ textarea:focus, select:focus {
     color: #1e90ff;
 }
 
+input[type="file"] {
+    display: none;
+}
+
 .tts-btn, .download-btn {
     background: #1e90ff;
     color: #fff;
     border: none;
     border-radius: 8px;
-    padding: 14px 0;
+    padding: 16px 0;
     width: 100%;
     font-size: 1.15rem;
     font-weight: 700;
@@ -334,16 +138,6 @@ textarea:focus, select:focus {
     text-align: center;
 }
 
-.error-message {
-    color: #e53e3e;
-    background: #fff5f5;
-    border: 1px solid #feb2b2;
-    border-radius: 6px;
-    padding: 10px;
-    margin-top: 18px;
-    text-align: center;
-}
-
 .success-message {
     color: #218838;
     background: #e6ffed;
@@ -354,4 +148,38 @@ textarea:focus, select:focus {
     text-align: center;
     font-weight: 600;
     font-size: 1.08rem;
+}
+
+.error-message {
+    color: #e53e3e;
+    background: #fff5f5;
+    border: 1px solid #feb2b2;
+    border-radius: 6px;
+    padding: 10px;
+    margin-top: 18px;
+    text-align: center;
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 600px) {
+    .tts-card {
+        padding: 18px 4px 14px 4px;
+        max-width: 98vw;
+        border-radius: 10px;
+    }
+    .tts-title {
+        font-size: 1.3rem;
+    }
+    .tts-btn, .download-btn {
+        font-size: 1rem;
+        padding: 13px 0;
+    }
+    textarea, select {
+        font-size: 0.98rem;
+        padding: 10px;
+    }
+    .upload-label {
+        font-size: 1rem;
+        padding: 12px 0;
+    }
 }
