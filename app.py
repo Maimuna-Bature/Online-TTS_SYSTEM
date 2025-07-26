@@ -16,9 +16,14 @@ os.makedirs(mAUDIO_UPLOAD_TEMP_DIR, exist_ok=True)
 EDGE_TTS_VOICES = {
     "English (US) - Aria Female": "en-US-AriaNeural",
     "English (US) - Guy Male": "en-US-GuyNeural",
+    "English (US) - Davis Male": "en-US-DavisNeural",
     "English (UK) - Sonia Female": "en-GB-SoniaNeural",
+    "English (UK) - Libby Female": "en-GB-LibbyNeural",
     "English (UK) - Ryan Male": "en-GB-RyanNeural",
-    "English (AU) - Natasha Female": "en-AU-NatashaNeural"
+    "English (ZA) - Luke Male": "en-ZA-LukeNeural",
+    "English (ZA) - Leah Female": "en-ZA-LeahNeural",
+    "English (IN) - Neerja Female": "en-IN-NeerjaNeural",
+    "English (IN) - Prabhat Male": "en-IN-PrabhatNeural"
 }
 
 #Cleanup old temporary files older than 1 hour
