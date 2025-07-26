@@ -47,6 +47,7 @@ def index():
     audio_filename = None
     custom_filename = ""
     selected_voice = list(EDGE_TTS_VOICES.values())[0]
+    success_message = None
 
     if request.method == 'POST':
         text_input = request.form.get('text', '').strip()
@@ -89,6 +90,7 @@ def index():
                 session['audio_filename'] = audio_filename
                 session['custom_filename'] = custom_filename
                 session['selected_voice'] = selected_voice
+                session['success_message'] = "✅ Conversion complete! Your audio is ready."
                 return redirect(url_for('index'))
             except Exception as e:
                 error_message = f"TTS Conversion Error: {e}."
@@ -97,6 +99,7 @@ def index():
     audio_filename = session.pop('audio_filename', None)
     custom_filename = session.pop('custom_filename', '')
     selected_voice = session.pop('selected_voice', list(EDGE_TTS_VOICES.values())[0])
+    success_message = session.pop('success_message', None)
 
     return render_template(
         'index.html',
@@ -105,7 +108,8 @@ def index():
         audio_filename=audio_filename,
         custom_filename=custom_filename,
         edge_tts_voices=EDGE_TTS_VOICES,
-        selected_voice=selected_voice
+        selected_voice=selected_voice,
+        success_message=success_message
     )
 
 @app.route('/download/<audio_filename>')
