@@ -23,12 +23,13 @@ body, html {
     border-radius: 18px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.12);
     width: 100%;
-    max-width: 420px;
-    padding: 32px 20px 24px 20px;
+    max-width: 500px;
+    min-width: 0;
+    padding: 32px 24px 24px 24px;
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    margin: 0 auto;
+    margin: 32px auto;
 }
 
 .tts-title {
@@ -68,14 +69,14 @@ textarea:focus, select:focus {
 .upload-container {
     background: #f0f6ff;
     border-radius: 12px;
-    padding: 18px 10px;
+    padding: 14px 0;
     margin: 18px 0 10px 0;
     box-shadow: 0 2px 8px rgba(30,144,255,0.05);
+    width: 100%;
 }
 
 .upload-section {
-    display: flex;
-    justify-content: center;
+    width: 100%;
 }
 
 .upload-label {
@@ -87,6 +88,7 @@ textarea:focus, select:focus {
     border-radius: 10px;
     padding: 18px 0;
     width: 100%;
+    min-width: 0;
     cursor: pointer;
     transition: background 0.2s, border 0.2s;
     font-size: 1.1rem;
@@ -162,24 +164,30 @@ input[type="file"] {
 
 /* Responsive adjustments for mobile */
 @media (max-width: 600px) {
+    .main-bg {
+        padding: 0;
+    }
     .tts-card {
-        padding: 18px 4px 14px 4px;
-        max-width: 98vw;
-        border-radius: 10px;
+        padding: 12px 2vw 18px 2vw;
+        max-width: 100vw;
+        border-radius: 0;
+        margin: 0;
+        min-height: 100vh;
+        box-shadow: none;
     }
     .tts-title {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
     }
     .tts-btn, .download-btn {
         font-size: 1rem;
         padding: 13px 0;
     }
     textarea, select {
-        font-size: 0.98rem;
+        font-size: 1rem;
         padding: 10px;
     }
     .upload-label {
         font-size: 1rem;
-        padding: 12px 0;
+        padding: 10px 0;
     }
 }
