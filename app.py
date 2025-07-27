@@ -16,7 +16,6 @@ os.makedirs(mAUDIO_UPLOAD_TEMP_DIR, exist_ok=True)
 EDGE_TTS_VOICES = {
     "English (US) - Aria Female": "en-US-AriaNeural",
     "English (US) - Guy Male": "en-US-GuyNeural",
-    "English (US) - Davis Male": "en-US-DavisNeural",
     "English (UK) - Sonia Female": "en-GB-SoniaNeural",
     "English (UK) - Libby Female": "en-GB-LibbyNeural",
     "English (UK) - Ryan Male": "en-GB-RyanNeural",
