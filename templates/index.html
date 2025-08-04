@@ -3,27 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Python Text-to-Speech System</title>
+    <title>Text-to-Speech System</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
-    <style>
-        .upload-container {
-            background: #f0f6ff;
-            border-radius: 12px;
-            padding: 18px 10px;
-            margin: 18px 0 10px 0;
-            box-shadow: 0 2px 8px rgba(30,144,255,0.05);
-        }
-    </style>
 </head>
 <body>
-    <div class="main-bg">
-        <div class="tts-card">
-            <h1 class="tts-title">Text-to-Speech</h1>
+    <nav class="navbar">
+        <div class="nav-logo">MyTTS</div>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Docs</a>
+            <a href="#">About</a>
+        </div>
+    </nav>
+    <main class="main-bg">
+        <section class="tts-card">
+            <h1 class="tts-title">Text-to-Speech Converter</h1>
             <form method="POST" enctype="multipart/form-data" autocomplete="off">
                 <label class="tts-label" for="text">Enter Text</label>
                 <textarea id="text" name="text" rows="4" placeholder="Type or paste your text here...">{{ processed_text|default('') }}</textarea>
-                
                 <div class="upload-section">
                     <label for="file" class="upload-label" id="upload-label">
                         <span class="upload-icon">&#128194;</span>
@@ -34,7 +32,6 @@
                         <input type="file" id="file" name="file" accept=".txt,.docx" hidden>
                     </label>
                 </div>
-
                 <label class="tts-label" for="voice">Voice</label>
                 <select id="voice" name="voice">
                     {% for label, value in edge_tts_voices.items() %}
@@ -58,8 +55,13 @@
             {% if error_message %}
             <div class="error-message">{{ error_message }}</div>
             {% endif %}
+        </section>
+    </main>
+    <footer>
+        <div class="footer-content">
+            <span>&copy; 2025 MyTTS. All rights reserved.</span>
         </div>
-    </div>
+    </footer>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
