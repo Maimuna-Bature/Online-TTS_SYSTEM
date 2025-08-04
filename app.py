@@ -61,8 +61,8 @@ def index():
         # Handle file upload
         if uploaded_file and uploaded_file.filename != '':
             file_extension = os.path.splitext(uploaded_file.filename)[1].lower()
-            if file_extension not in ['.txt', '.docx']:
-                error_message = "Unsupported file type. Please upload a .txt or .docx file."
+            if file_extension not in ['.txt', '.docx', '.pdf']:
+                error_message = "Unsupported file type. Please upload a .txt, .docx, or .pdf file."
             else:
                 temp_upload_path = os.path.join(mAUDIO_UPLOAD_TEMP_DIR, uploaded_file.filename)
                 uploaded_file.save(temp_upload_path)
@@ -70,10 +70,16 @@ def index():
                     if file_extension == '.txt':
                         with open(temp_upload_path, 'r', encoding='utf-8') as f:
                             processed_text = f.read()
-                    else:
+                    elif file_extension == '.docx':
                         import docx
                         doc = docx.Document(temp_upload_path)
                         processed_text = '\n'.join([p.text for p in doc.paragraphs])
+                    elif file_extension == '.pdf':
+                        from PyPDF2 import PdfReader
+                        reader = PdfReader(temp_upload_path)
+                        processed_text = ""
+                        for page in reader.pages:
+                            processed_text += page.extract_text() or ""
                 except Exception as e:
                     error_message = f"Error reading file: {e}"
                 finally:
