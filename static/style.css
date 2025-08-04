@@ -7,14 +7,14 @@ body, html {
 }
 
 body {
-    background: #101614;
-    color: #f8f8f8;
-    min-height: 100vh;
+    background: #3B5249;
+    color: #222;
+    font-family: 'Roboto', Arial, sans-serif;
 }
 
 .navbar {
-    background: #101614;
-    color: #fff;
+    background: #3B5249;
+    color: #F6EFE6;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -26,11 +26,11 @@ body {
     font-size: 1.7rem;
     font-weight: bold;
     letter-spacing: 2px;
-    color: #2ecc7a;
+    color: #F9E559;
 }
 
 .nav-links a {
-    color: #fff;
+    color: #F6EFE6;
     text-decoration: none;
     margin-left: 32px;
     font-weight: 500;
@@ -38,7 +38,7 @@ body {
     transition: color 0.2s;
 }
 .nav-links a:hover {
-    color: #2ecc7a;
+    color: #C14A09;
 }
 
 .main-bg {
@@ -46,25 +46,25 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #101614 60%, #2ecc7a 100%);
+    background: #F6EFE6;
     padding: 40px 0;
 }
 
 .tts-card {
-    background: #181f1b;
-    border-radius: 22px;
-    box-shadow: 0 8px 32px rgba(44,204,122,0.10);
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 4px 24px rgba(59,82,73,0.10);
     width: 420px;
     max-width: 95vw;
     padding: 38px 34px 30px 34px;
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    border: 1.5px solid #2ecc7a22;
+    border: 2px solid #3B5249;
 }
 
 .tts-title {
-    color: #2ecc7a;
+    color: #3B5249;
     font-size: 2.1rem;
     font-weight: 700;
     margin-bottom: 18px;
@@ -108,21 +108,22 @@ textarea:focus, select:focus {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: #181f1b;
-    border: 2px dashed #2ecc7a;
+    background: #F6EFE6;
+    border: 2px dashed #3B5249;
     border-radius: 10px;
     padding: 18px 0;
     width: 100%;
     cursor: pointer;
     transition: background 0.2s, border 0.2s;
     font-size: 1.1rem;
-    color: #2ecc7a;
+    color: #3B5249;
     text-align: center;
 }
 
 .upload-label:hover {
-    background: #2ecc7a22;
-    border-color: #2ecc7a;
+    background: #F9E559;
+    color: #3B5249;
+    border-color: #C14A09;
 }
 
 .upload-icon {
@@ -132,8 +133,8 @@ textarea:focus, select:focus {
 }
 
 .tts-btn, .download-btn {
-    background: #2ecc7a;
-    color: #101614;
+    background: #F9E559;
+    color: #3B5249;
     border: none;
     border-radius: 8px;
     padding: 14px 0;
@@ -143,7 +144,7 @@ textarea:focus, select:focus {
     cursor: pointer;
     margin-top: 16px;
     margin-bottom: 0;
-    transition: background 0.2s, transform 0.1s;
+    transition: background 0.2s, color 0.2s;
     box-shadow: 0 2px 8px rgba(44,204,122,0.08);
     text-decoration: none;
     text-align: center;
@@ -151,10 +152,8 @@ textarea:focus, select:focus {
 }
 
 .tts-btn:hover, .download-btn:hover {
-    background: #101614;
-    color: #2ecc7a;
-    border: 1.5px solid #2ecc7a;
-    transform: translateY(-2px) scale(1.01);
+    background: #C14A09;
+    color: #fff;
 }
 
 .audio-preview {
@@ -163,9 +162,9 @@ textarea:focus, select:focus {
 }
 
 .success-message {
-    color: #2ecc7a;
-    background: #101614;
-    border: 1px solid #2ecc7a;
+    color: #3B5249;
+    background: #F9E559;
+    border: 1px solid #3B5249;
     border-radius: 6px;
     padding: 10px;
     margin-top: 18px;
@@ -173,13 +172,33 @@ textarea:focus, select:focus {
 }
 
 .error-message {
-    color: #e53e3e;
-    background: #181f1b;
+    color: #fff;
+    background: #C14A09;
     border: 1px solid #e53e3e;
     border-radius: 6px;
     padding: 10px;
     margin-top: 18px;
     text-align: center;
+}
+
+.modal-section {
+    background: #fff;
+    border: 1px solid #3B5249;
+    border-radius: 12px;
+    padding: 24px;
+    margin-top: 24px;
+    color: #3B5249;
+}
+
+.history-list {
+    list-style: none;
+    padding: 0;
+}
+.history-list li {
+    margin: 8px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 /* Ensure all elements use border-box sizing */
@@ -214,8 +233,8 @@ textarea:focus, select:focus {
 }
 
 footer {
-    background: #101614;
-    color: #2ecc7a;
+    background: #3B5249;
+    color: #F6EFE6;
     text-align: center;
     padding: 18px 0 10px 0;
     font-size: 1rem;
