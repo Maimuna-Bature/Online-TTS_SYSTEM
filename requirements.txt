@@ -2,4 +2,4 @@ Flask
 edge-tts
 gunicorn
 docx
-PyPDF2
+pdfplumber
