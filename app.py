@@ -75,11 +75,11 @@ def index():
                         doc = docx.Document(temp_upload_path)
                         processed_text = '\n'.join([p.text for p in doc.paragraphs])
                     elif file_extension == '.pdf':
-                        from PyPDF2 import PdfReader
-                        reader = PdfReader(temp_upload_path)
+                        import pdfplumber
                         processed_text = ""
-                        for page in reader.pages:
-                            processed_text += page.extract_text() or ""
+                        with pdfplumber.open(temp_upload_path) as pdf:
+                            for page in pdf.pages:
+                                processed_text += page.extract_text() or ""
                 except Exception as e:
                     error_message = f"Error reading file: {e}"
                 finally:
@@ -144,8 +144,8 @@ if __name__ == '__main__':
     # Set debug=True for development
     app.run(debug=True, port=5000)
 
-# ================================
+# =====================================
 # Author: Maimuna Abdulkadir Usman
 # Project: Unique TTS System
-# Custom Version - July 2025
-# ================================
+# Custom Version - June-September 2025
+# =====================================

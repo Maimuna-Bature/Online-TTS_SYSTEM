@@ -8,14 +8,6 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-logo">MyTTS</div>
-        <div class="nav-links">
-            <a href="#" class="active">Home</a>
-            <a href="#history" id="history-link">History</a>
-            <a href="#about" id="about-link">About</a>
-        </div>
-    </nav>
     <main class="main-bg">
         <section class="tts-card">
             <h1 class="tts-title">Text-to-Speech Converter</h1>
@@ -56,31 +48,6 @@
             <div class="error-message">{{ error_message }}</div>
             {% endif %}
         </section>
-        <!-- History Modal/Section -->
-        <section id="history" class="modal-section" style="display:none;">
-            <h2>Conversion History</h2>
-            <ul class="history-list">
-                {% for item in history %}
-                <li>
-                    <span>{{ item.filename }}</span>
-                    <a href="{{ url_for('download_audio', audio_filename=item.audio_filename, name=item.filename) }}">Download</a>
-                </li>
-                {% else %}
-                <li>No history yet.</li>
-                {% endfor %}
-            </ul>
-        </section>
-        <!-- About Modal/Section -->
-        <section id="about" class="modal-section" style="display:none;">
-            <h2>About MyTTS</h2>
-            <p>
-                MyTTS lets you convert text or documents (.txt, .docx, .pdf) to speech using natural voices. 
-                <br>1. Type or upload your file.<br>
-                2. Choose a voice.<br>
-                3. Click Convert and download or listen instantly.<br>
-                Your recent conversions are saved in the History tab.
-            </p>
-        </section>
     </main>
     <footer>
         <div class="footer-content">
@@ -88,16 +55,5 @@
         </div>
     </footer>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
-    <script>
-        // Simple tab/modal logic
-        document.getElementById('history-link').onclick = function() {
-            document.getElementById('history').style.display = 'block';
-            document.getElementById('about').style.display = 'none';
-        };
-        document.getElementById('about-link').onclick = function() {
-            document.getElementById('about').style.display = 'block';
-            document.getElementById('history').style.display = 'none';
-        };
-    </script>
 </body>
 </html>
