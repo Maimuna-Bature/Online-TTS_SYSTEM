@@ -147,5 +147,5 @@ if __name__ == '__main__':
 # =====================================
 # Author: Maimuna Abdulkadir Usman
 # Project: Unique TTS System
-# Custom Version - June-September 2025
+# Custom Version: June-September 2025
 # =====================================
