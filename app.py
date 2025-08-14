@@ -18,11 +18,7 @@ EDGE_TTS_VOICES = {
     "English (US) - Guy Male": "en-US-GuyNeural",
     "English (UK) - Sonia Female": "en-GB-SoniaNeural",
     "English (UK) - Libby Female": "en-GB-LibbyNeural",
-    "English (UK) - Ryan Male": "en-GB-RyanNeural",
-    "English (ZA) - Luke Male": "en-ZA-LukeNeural",
-    "English (ZA) - Leah Female": "en-ZA-LeahNeural",
-    "English (IN) - Neerja Female": "en-IN-NeerjaNeural",
-    "English (IN) - Prabhat Male": "en-IN-PrabhatNeural"
+    "English (UK) - Ryan Male": "en-GB-RyanNeural"
 }
 
 #Cleanup old temporary files older than 1 hour
