@@ -68,11 +68,8 @@ def index():
                         doc = docx.Document(temp_upload_path)
                         processed_text = '\n'.join([p.text for p in doc.paragraphs])
                     elif file_extension == '.pdf':
-                        import pdfplumber
-                        processed_text = ""
-                        with pdfplumber.open(temp_upload_path) as pdf:
-                            for page in pdf.pages:
-                                processed_text += page.extract_text() or ""
+                        from pdfminer.high_level import extract_text
+                        processed_text = extract_text(temp_upload_path)
                 except Exception as e:
                     error_message = f"Error reading file: {e}"
                 finally:
