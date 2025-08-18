@@ -113,15 +113,17 @@ def index():
 
 @app.route('/download/<audio_filename>')
 def download_audio(audio_filename):
-    custom_filename = request.args.get('name', 'speech')
-    # Sanitize filename
-    custom_filename = "".join(c for c in custom_filename if c.isalnum() or c in (' ', '_', '-')).rstrip()
-    if not custom_filename.lower().endswith('.mp3'):
-        custom_filename += '.mp3'
+    custom_name = request.args.get('name', None)
     audio_path = os.path.join(mAUDIO_UPLOAD_TEMP_DIR, audio_filename)
-    if os.path.exists(audio_path):
-        return send_file(audio_path, mimetype='audio/mp3', as_attachment=True, download_name=custom_filename)
-    return "File not found", 404
+    if not os.path.exists(audio_path):
+        return "File not found", 404
+    # Add .mp3 extension if not present
+    if custom_name:
+        if not custom_name.lower().endswith('.mp3'):
+            custom_name += '.mp3'
+        return send_file(audio_path, as_attachment=True, download_name=custom_name)
+    else:
+        return send_file(audio_path, as_attachment=True)
 
 @app.route('/audio/<audio_filename>')
 def serve_audio(audio_filename):
