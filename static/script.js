@@ -45,5 +45,33 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    const customDownloadBtn = document.getElementById('custom-download-btn');
+    const filenameModal = document.getElementById('filename-modal');
+    const confirmDownloadBtn = document.getElementById('confirm-download-btn');
+    const cancelDownloadBtn = document.getElementById('cancel-download-btn');
+    const customFilenameInput = document.getElementById('custom-filename-input');
+
+    if (customDownloadBtn) {
+        customDownloadBtn.addEventListener('click', function() {
+            filenameModal.style.display = 'block';
+            customFilenameInput.value = '';
+            customFilenameInput.focus();
+        });
+    }
+    if (cancelDownloadBtn) {
+        cancelDownloadBtn.addEventListener('click', function() {
+            filenameModal.style.display = 'none';
+        });
+    }
+    if (confirmDownloadBtn) {
+        confirmDownloadBtn.addEventListener('click', function() {
+            const filename = customFilenameInput.value.trim() || 'speech';
+            // Redirect to download route with custom filename as query param
+            const audioFilename = "{{ audio_filename }}";
+            window.location.href = `/download/${audioFilename}?name=${encodeURIComponent(filename)}`;
+            filenameModal.style.display = 'none';
+        });
+    }
 });
 
