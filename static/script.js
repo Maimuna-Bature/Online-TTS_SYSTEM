@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (customDownloadBtn) {
         customDownloadBtn.addEventListener('click', function() {
-            filenameModal.style.display = 'block';
+            filenameModal.style.display = 'flex';
             customFilenameInput.value = '';
             customFilenameInput.focus();
         });
@@ -67,8 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (confirmDownloadBtn) {
         confirmDownloadBtn.addEventListener('click', function() {
             const filename = customFilenameInput.value.trim() || 'speech';
-            // Redirect to download route with custom filename as query param
-            const audioFilename = "{{ audio_filename }}";
+            const audioFilename = customDownloadBtn.getAttribute('data-audio');
             window.location.href = `/download/${audioFilename}?name=${encodeURIComponent(filename)}`;
             filenameModal.style.display = 'none';
         });

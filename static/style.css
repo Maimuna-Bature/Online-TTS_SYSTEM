@@ -187,10 +187,13 @@ textarea:focus, select:focus {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
     background: rgba(0,0,0,0.4);
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     z-index: 1000;
+}
+.modal-section[style*="display: flex"] {
+    display: flex !important;
 }
 .modal-content {
     background: #fff;

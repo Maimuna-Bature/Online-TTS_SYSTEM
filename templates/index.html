@@ -41,9 +41,8 @@
                     <source src="{{ url_for('serve_audio', audio_filename=audio_filename) }}" type="audio/mp3">
                     Your browser does not support the audio element.
                 </audio>
-                <button type="button" class="download-btn" id="custom-download-btn">Download</button>
+                <button type="button" class="download-btn" id="custom-download-btn" data-audio="{{ audio_filename }}">Download</button>
             </div>
-            <!-- Modal for custom filename -->
             <div id="filename-modal" class="modal-section" style="display:none;">
                 <div class="modal-content">
                     <label for="custom-filename-input">Enter file name:</label>
