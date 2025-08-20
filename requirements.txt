@@ -3,3 +3,4 @@ edge-tts
 gunicorn
 docx
 pdfminer.six
+openpyxlg
