@@ -57,8 +57,8 @@ def index():
         # Handle file upload
         if uploaded_file and uploaded_file.filename != '':
             file_extension = os.path.splitext(uploaded_file.filename)[1].lower()
-            if file_extension not in ['.docx', '.pdf']:
-                error_message = "Unsupported file type. Please upload a .docx or .pdf file."
+            if file_extension not in ['.docx', '.pdf', '.xlsx']:
+                error_message = "Unsupported file type. Please upload a .docx, .pdf, or .xlsx file."
             else:
                 temp_upload_path = os.path.join(mAUDIO_UPLOAD_TEMP_DIR, uploaded_file.filename)
                 uploaded_file.save(temp_upload_path)
@@ -70,6 +70,16 @@ def index():
                     elif file_extension == '.pdf':
                         from pdfminer.high_level import extract_text
                         processed_text = extract_text(temp_upload_path)
+                    elif file_extension == '.xlsx':
+                        import openpyxl
+                        wb = openpyxl.load_workbook(temp_upload_path, data_only=True)
+                        text_chunks = []
+                        for sheet in wb.worksheets:
+                            for row in sheet.iter_rows(values_only=True):
+                                for cell in row:
+                                    if cell:
+                                        text_chunks.append(str(cell))
+                        processed_text = '\n'.join(text_chunks)
                 except Exception as e:
                     error_message = f"Error reading file: {e}"
                 finally:
