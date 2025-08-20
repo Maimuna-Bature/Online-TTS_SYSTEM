@@ -57,8 +57,8 @@ def index():
         # Handle file upload
         if uploaded_file and uploaded_file.filename != '':
             file_extension = os.path.splitext(uploaded_file.filename)[1].lower()
-            if file_extension not in ['.docx', '.pdf', '.xlsx']:
-                error_message = "Unsupported file type. Please upload a .docx, .pdf, or .xlsx file."
+            if file_extension not in ['.docx', '.pdf', '.xlsx', '.jpg', '.jpeg', '.png']:
+                error_message = "Unsupported file type. Please upload a .docx, .pdf, .xlsx, .jpg, or .png file."
             else:
                 temp_upload_path = os.path.join(mAUDIO_UPLOAD_TEMP_DIR, uploaded_file.filename)
                 uploaded_file.save(temp_upload_path)
@@ -80,6 +80,13 @@ def index():
                                     if cell:
                                         text_chunks.append(str(cell))
                         processed_text = '\n'.join(text_chunks)
+                    elif file_extension in ['.jpg', '.jpeg', '.png']:
+                        from PIL import Image
+                        import pytesseract
+                        # If Tesseract is not in PATH, set the path:
+                        # pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+                        img = Image.open(temp_upload_path)
+                        processed_text = pytesseract.image_to_string(img)
                 except Exception as e:
                     error_message = f"Error reading file: {e}"
                 finally:
