@@ -5,6 +5,7 @@ import time
 import asyncio
 import edge_tts
 import pytesseract
+import string
 
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'  # Update this path as needed
 
@@ -90,6 +91,10 @@ def index():
                         # pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
                         img = Image.open(temp_upload_path)
                         processed_text = pytesseract.image_to_string(img)
+                        #Clean the text by removing punctuation
+                        punctuation_to_remove = string.punctuation
+                        translator = str.maketrans('', '', punctuation_to_remove)  
+                        processed_text = processed_text.translate(translator)
                 except Exception as e:
                     error_message = f"Error reading file: {e}"
                 finally:
