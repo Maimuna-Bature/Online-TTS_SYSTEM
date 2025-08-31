@@ -12,7 +12,7 @@
         <section class="tts-card">
             <h1 class="tts-title">Text-to-Speech Converter</h1>
             <form method="POST" enctype="multipart/form-data" autocomplete="off">
-                <label class="tts-label" for="text">Enter Text</label>
+                <label class="tts-label" for="text">Enter Text:</label>
                 <textarea id="text" name="text" rows="4" placeholder="Type or paste your text here...">{{ processed_text|default('') }}</textarea>
                 <div class="upload-section">
                     <label for="file" class="upload-label" id="upload-label">
@@ -24,7 +24,7 @@
                         <input type="file" id="file" name="file" accept=".docx,.pdf,.xlsx,.jpg,.jpeg,.png" hidden>
                     </label>
                 </div>
-                <label class="tts-label" for="voice">Voice</label>
+                <label class="tts-label" for="voice">Voices:</label>
                 <select id="voice" name="voice">
                     {% for label, value in edge_tts_voices.items() %}
                     <option value="{{ value }}" {% if selected_voice == value %}selected{% endif %}>{{ label }}</option>
