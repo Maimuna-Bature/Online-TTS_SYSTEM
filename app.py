@@ -71,14 +71,16 @@ def index():
                         import docx
                         doc = docx.Document(temp_upload_path)
                         processed_text = '\n'.join([p.text for p in doc.paragraphs])
-                        punctuation_to_remove = string.punctuation
+                        processed_text = processed_text.replace('\n', ' ')
+                        punctuation_to_remove = string.punctuation.replace('&', '')
                         translator = str.maketrans('', '', punctuation_to_remove)
                         processed_text = processed_text.translate(translator)
                         processed_text = " ".join(processed_text.split())
                     elif file_extension == '.pdf':
                         from pdfminer.high_level import extract_text
                         processed_text = extract_text(temp_upload_path)
-                        punctuation_to_remove = string.punctuation
+                        processed_text = processed_text.replace('\n', ' ')
+                        punctuation_to_remove = string.punctuation.replace('&', '')
                         translator = str.maketrans('', '', punctuation_to_remove)
                         processed_text = processed_text.translate(translator)
                         processed_text = " ".join(processed_text.split())
@@ -92,7 +94,8 @@ def index():
                                     if cell:
                                         text_chunks.append(str(cell))
                         processed_text = '\n'.join(text_chunks)
-                        punctuation_to_remove = string.punctuation
+                        processed_text = processed_text.replace('\n', ' ')
+                        punctuation_to_remove = string.punctuation.replace('&', '')
                         translator = str.maketrans('', '', punctuation_to_remove)
                         processed_text = processed_text.translate(translator)
                         processed_text = " ".join(processed_text.split())
@@ -108,6 +111,7 @@ def index():
                             punctuation_to_remove = string.punctuation
                             translator = str.maketrans('', '', punctuation_to_remove)
                             processed_text = processed_text.translate(translator)
+                            processed_text = processed_text.replace('\n', ' ')
                             processed_text = " ".join(processed_text.split())
                 except Exception as e:
                     error_message = f"Error reading file: {e}"
