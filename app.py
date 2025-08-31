@@ -118,6 +118,8 @@ def index():
                 return redirect(url_for('index'))
             except Exception as e:
                 error_message = f"TTS Conversion Error: {e}."
+        elif not processed_text.strip():
+            error_message = "No readable text was found in the file or text input."
 
     # GET request or after redirect
     audio_filename = session.pop('audio_filename', None)
