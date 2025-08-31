@@ -71,9 +71,11 @@ def index():
                         import docx
                         doc = docx.Document(temp_upload_path)
                         processed_text = '\n'.join([p.text for p in doc.paragraphs])
+                        processed_text = " ".join(processed_text.split())
                     elif file_extension == '.pdf':
                         from pdfminer.high_level import extract_text
                         processed_text = extract_text(temp_upload_path)
+                        processed_text = " ".join(processed_text.split())
                     elif file_extension == '.xlsx':
                         import openpyxl
                         wb = openpyxl.load_workbook(temp_upload_path, data_only=True)
@@ -84,6 +86,7 @@ def index():
                                     if cell:
                                         text_chunks.append(str(cell))
                         processed_text = '\n'.join(text_chunks)
+                        processed_text = " ".join(processed_text.split())
                     elif file_extension in ['.jpg', '.jpeg', '.png']:
                         from PIL import Image
                         import pytesseract
@@ -91,10 +94,12 @@ def index():
                         # pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
                         img = Image.open(temp_upload_path)
                         processed_text = pytesseract.image_to_string(img)
-                        #Clean the text by removing punctuation
-                        punctuation_to_remove = string.punctuation
-                        translator = str.maketrans('', '', punctuation_to_remove)  
-                        processed_text = processed_text.translate(translator)
+                        if processed_text:
+                            # Clean the text by removing punctuation
+                            punctuation_to_remove = string.punctuation
+                            translator = str.maketrans('', '', punctuation_to_remove)
+                            processed_text = processed_text.translate(translator)
+                            processed_text = " ".join(processed_text.split())
                 except Exception as e:
                     error_message = f"Error reading file: {e}"
                 finally:
