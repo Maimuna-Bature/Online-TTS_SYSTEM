@@ -71,10 +71,16 @@ def index():
                         import docx
                         doc = docx.Document(temp_upload_path)
                         processed_text = '\n'.join([p.text for p in doc.paragraphs])
+                        punctuation_to_remove = string.punctuation
+                        translator = str.maketrans('', '', punctuation_to_remove)
+                        processed_text = processed_text.translate(translator)
                         processed_text = " ".join(processed_text.split())
                     elif file_extension == '.pdf':
                         from pdfminer.high_level import extract_text
                         processed_text = extract_text(temp_upload_path)
+                        punctuation_to_remove = string.punctuation
+                        translator = str.maketrans('', '', punctuation_to_remove)
+                        processed_text = processed_text.translate(translator)
                         processed_text = " ".join(processed_text.split())
                     elif file_extension == '.xlsx':
                         import openpyxl
@@ -86,6 +92,9 @@ def index():
                                     if cell:
                                         text_chunks.append(str(cell))
                         processed_text = '\n'.join(text_chunks)
+                        punctuation_to_remove = string.punctuation
+                        translator = str.maketrans('', '', punctuation_to_remove)
+                        processed_text = processed_text.translate(translator)
                         processed_text = " ".join(processed_text.split())
                     elif file_extension in ['.jpg', '.jpeg', '.png']:
                         from PIL import Image
