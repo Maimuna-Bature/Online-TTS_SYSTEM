@@ -44,26 +44,39 @@ async def synthesize_edge_tts(text, voice, output_path):
     await communicate.save(output_path)
 
 def process_text_for_speech(text, is_image=False):
-    # Clean up excessive whitespace
+    # Clean up excessive whitespace and normalize newlines
     text = ' '.join(text.split())
     
-    if is_image:
-        # For images, return clean text without SSML
-        return text
-    else:
-        # Keep essential punctuation for other file types
-        keep_punctuation = {'.', '!', '?', ',', ';', ':'}
-        cleaned_text = ''
-        for char in text:
-            if char in keep_punctuation or char.isalnum() or char.isspace():
-                cleaned_text += char
-        
-        # Add SSML only for non-image text
-        return f"""<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis">
-            <prosody rate="0.95" pitch="0">
-                {cleaned_text}
-            </prosody>
-        </speak>"""
+    # Handle lists, bullet points and punctuation for all file types
+    # Replace bullets and asterisks
+    text = text.replace('*', '')
+    text = text.replace('•', '')
+    
+    # Add pauses for punctuation and lists
+    cleaned_text = text
+    
+    # Handle numbered lists with regex
+    import re
+    cleaned_text = re.sub(r'(\d+\.)\s', r'\1 <break time="300ms"/> ', cleaned_text)
+    
+    # Add pauses after punctuation
+    cleaned_text = cleaned_text.replace('. ', '. <break time="500ms"/> ')
+    cleaned_text = cleaned_text.replace('! ', '! <break time="500ms"/> ')
+    cleaned_text = cleaned_text.replace('? ', '? <break time="500ms"/> ')
+    cleaned_text = cleaned_text.replace(', ', ', <break time="200ms"/> ')
+    cleaned_text = cleaned_text.replace('; ', '; <break time="300ms"/> ')
+    cleaned_text = cleaned_text.replace(': ', ': <break time="200ms"/> ')
+    
+    # Handle parentheses with slight pauses
+    cleaned_text = cleaned_text.replace('(', ' <break time="100ms"/> ')
+    cleaned_text = cleaned_text.replace(')', ' <break time="100ms"/> ')
+    
+    # Add SSML tags with adjusted rate and pitch
+    return f"""<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis">
+        <prosody rate="0.95" pitch="0">
+            {cleaned_text}
+        </prosody>
+    </speak>"""
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -92,26 +105,23 @@ def index():
                     if file_extension == '.docx':
                         import docx
                         doc = docx.Document(temp_upload_path)
-                        processed_text = '\n'.join([p.text for p in doc.paragraphs])
-                        processed_text = processed_text.replace('\n', ' ')
-                        processed_text = process_text_for_speech(processed_text)
+                        raw_text = '\n'.join([p.text for p in doc.paragraphs])
+                        processed_text = process_text_for_speech(raw_text)
                     elif file_extension == '.pdf':
                         from pdfminer.high_level import extract_text
-                        processed_text = extract_text(temp_upload_path)
-                        processed_text = processed_text.replace('\n', ' ')
-                        processed_text = process_text_for_speech(processed_text)
+                        raw_text = extract_text(temp_upload_path)
+                        processed_text = process_text_for_speech(raw_text)
                     elif file_extension == '.xlsx':
                         import openpyxl
                         wb = openpyxl.load_workbook(temp_upload_path, data_only=True)
                         text_chunks = []
                         for sheet in wb.worksheets:
                             for row in sheet.iter_rows(values_only=True):
-                                for cell in row:
-                                    if cell:
-                                        text_chunks.append(str(cell))
-                        processed_text = '\n'.join(text_chunks)
-                        processed_text = processed_text.replace('\n', ' ')
-                        processed_text = process_text_for_speech(processed_text)
+                                row_text = ', '.join(str(cell) for cell in row if cell)
+                                if row_text:
+                                    text_chunks.append(row_text)
+                        raw_text = '. '.join(text_chunks)
+                        processed_text = process_text_for_speech(raw_text)
                     elif file_extension in ['.jpg', '.jpeg', '.png']:
                         from PIL import Image
                         import pytesseract
