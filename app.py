@@ -44,39 +44,30 @@ async def synthesize_edge_tts(text, voice, output_path):
     await communicate.save(output_path)
 
 def process_text_for_speech(text, is_image=False):
-    # Clean up excessive whitespace and normalize newlines
+    # Clean up excessive whitespace
     text = ' '.join(text.split())
     
-    # Handle lists, bullet points and punctuation for all file types
-    # Replace bullets and asterisks
-    text = text.replace('*', '')
-    text = text.replace('•', '')
-    
-    # Add pauses for punctuation and lists
-    cleaned_text = text
+    # Replace bullets and asterisks with appropriate pauses
+    text = text.replace('*', ',')
+    text = text.replace('•', ',')
     
     # Handle numbered lists with regex
     import re
-    cleaned_text = re.sub(r'(\d+\.)\s', r'\1 <break time="300ms"/> ', cleaned_text)
+    text = re.sub(r'(\d+\.)\s', r'\1, ', text)
     
-    # Add pauses after punctuation
-    cleaned_text = cleaned_text.replace('. ', '. <break time="500ms"/> ')
-    cleaned_text = cleaned_text.replace('! ', '! <break time="500ms"/> ')
-    cleaned_text = cleaned_text.replace('? ', '? <break time="500ms"/> ')
-    cleaned_text = cleaned_text.replace(', ', ', <break time="200ms"/> ')
-    cleaned_text = cleaned_text.replace('; ', '; <break time="300ms"/> ')
-    cleaned_text = cleaned_text.replace(': ', ': <break time="200ms"/> ')
+    # Add natural pauses by modifying punctuation
+    text = text.replace('...', '…')  # Convert triple dots to ellipsis
+    text = text.replace('!', '! ')   # Add space after exclamation
+    text = text.replace('?', '? ')   # Add space after question mark
+    text = text.replace(':', ': ')   # Add space after colon
+    text = text.replace(';', '; ')   # Add space after semicolon
+    text = text.replace('.', '. ')   # Add space after period
+    text = text.replace(',', ', ')   # Add space after comma
     
-    # Handle parentheses with slight pauses
-    cleaned_text = cleaned_text.replace('(', ' <break time="100ms"/> ')
-    cleaned_text = cleaned_text.replace(')', ' <break time="100ms"/> ')
+    # Clean up any double spaces created
+    text = ' '.join(text.split())
     
-    # Add SSML tags with adjusted rate and pitch
-    return f"""<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis">
-        <prosody rate="0.95" pitch="0">
-            {cleaned_text}
-        </prosody>
-    </speak>"""
+    return text
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -149,8 +140,17 @@ def index():
             try:
                 audio_filename = f"m{int(time.time())}_{os.getpid()}.mp3"
                 audio_path = os.path.join(mAUDIO_UPLOAD_TEMP_DIR, audio_filename)
-                # Convert text to speech directly without SSML tags
-                communicate = edge_tts.Communicate(processed_text, selected_voice)
+                
+                # New way to handle TTS conversion
+                text_to_speak = process_text_for_speech(processed_text)
+                communicate = edge_tts.Communicate(
+                    text_to_speak,
+                    selected_voice,
+                    rate='-10%',    # Slightly slower for better punctuation handling
+                    volume='+0%',   # Normal volume
+                    pitch='+0Hz'    # Normal pitch
+                )
+                
                 asyncio.run(communicate.save(audio_path))
                 # Store info in session
                 session['audio_filename'] = audio_filename
