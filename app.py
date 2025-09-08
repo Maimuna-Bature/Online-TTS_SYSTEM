@@ -47,22 +47,26 @@ def process_text_for_speech(text, is_image=False):
     # Clean up excessive whitespace
     text = ' '.join(text.split())
     
-    # Replace bullets and asterisks with appropriate pauses
+    # Remove repeated underscores (common in signature lines)
+    import re
+    text = re.sub(r'_{3,}', '', text)  # Remove 3 or more consecutive underscores
+    text = re.sub(r'[\-_]{2,}', '', text)  # Remove 2 or more dashes or underscores
+    
+    # Rest of your existing processing
     text = text.replace('*', ',')
     text = text.replace('•', ',')
     
     # Handle numbered lists with regex
-    import re
     text = re.sub(r'(\d+\.)\s', r'\1, ', text)
     
     # Add natural pauses by modifying punctuation
-    text = text.replace('...', '…')  # Convert triple dots to ellipsis
-    text = text.replace('!', '! ')   # Add space after exclamation
-    text = text.replace('?', '? ')   # Add space after question mark
-    text = text.replace(':', ': ')   # Add space after colon
-    text = text.replace(';', '; ')   # Add space after semicolon
-    text = text.replace('.', '. ')   # Add space after period
-    text = text.replace(',', ', ')   # Add space after comma
+    text = text.replace('...', '…')
+    text = text.replace('!', '! ')
+    text = text.replace('?', '? ')
+    text = text.replace(':', ': ')
+    text = text.replace(';', '; ')
+    text = text.replace('.', '. ')
+    text = text.replace(',', ', ')
     
     # Clean up any double spaces created
     text = ' '.join(text.split())
@@ -103,13 +107,17 @@ def index():
                         if file_extension == '.docx':
                             import docx
                             doc = docx.Document(temp_upload_path)
-                            # Process all paragraphs and tables
                             text_parts = []
                             
-                            # Get text from paragraphs
-                            for para in doc.paragraphs:
-                                if para.text.strip():
-                                    text_parts.append(para.text)
+                            # Process document in chunks
+                            chunk_size = 1000  # Process 1000 paragraphs at a time
+                            
+                            # Get text from paragraphs in chunks
+                            for i in range(0, len(doc.paragraphs), chunk_size):
+                                chunk = doc.paragraphs[i:i + chunk_size]
+                                for para in chunk:
+                                    if para.text.strip():
+                                        text_parts.append(para.text)
                             
                             # Get text from tables
                             for table in doc.tables:
@@ -123,8 +131,17 @@ def index():
 
                         elif file_extension == '.pdf':
                             from pdfminer.high_level import extract_text
-                            raw_text = extract_text(temp_upload_path, maxpages=None)  # None means process all pages
-                            processed_text = process_text_for_speech(raw_text)
+                            try:
+                                # Extract text with higher memory limit
+                                raw_text = extract_text(
+                                    temp_upload_path,
+                                    maxpages=None,  # Process all pages
+                                    page_numbers=None,
+                                    codec='utf-8',
+                                )
+                                processed_text = process_text_for_speech(raw_text)
+                            except Exception as e:
+                                error_message = f"Error processing PDF: {e}"
                         elif file_extension == '.xlsx':
                             import openpyxl
                             wb = openpyxl.load_workbook(temp_upload_path, data_only=True)
