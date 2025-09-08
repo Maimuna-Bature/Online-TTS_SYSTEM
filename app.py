@@ -112,16 +112,17 @@ def index():
                     elif file_extension in ['.jpg', '.jpeg', '.png']:
                         from PIL import Image
                         import pytesseract
-                        img = Image.open(temp_upload_path)
-                        # Extract text from image
-                        extracted_text = pytesseract.image_to_string(img)
-                        if extracted_text:
-                            # Clean up the extracted text without adding SSML tags yet
-                            processed_text = ' '.join(extracted_text.split())
-                            # Remove any XML-like content that might have been detected
-                            processed_text = processed_text.replace('<', '').replace('>', '')
-                        else:
-                            error_message = "No text could be extracted from the image."
+                        try:
+                            img = Image.open(temp_upload_path)
+                            # Extract text from image
+                            extracted_text = pytesseract.image_to_string(img)
+                            if extracted_text:
+                                # Just clean up basic formatting without SSML
+                                processed_text = extracted_text.strip()
+                            else:
+                                error_message = "No text could be extracted from the image."
+                        except Exception as e:
+                            error_message = f"Error processing image: {e}"
                 except Exception as e:
                     error_message = f"Error reading file: {e}"
                 finally:
@@ -134,8 +135,11 @@ def index():
         # Convert text to speech and save to temp file
         if not error_message and processed_text.strip():
             try:
-                # Process text for speech
-                ssml_text = process_text_for_speech(processed_text)
+                # Only apply SSML if the text doesn't already have SSML tags
+                if not processed_text.startswith('<speak'):
+                    ssml_text = process_text_for_speech(processed_text)
+                else:
+                    ssml_text = processed_text
                 
                 audio_filename = f"m{int(time.time())}_{os.getpid()}.mp3"
                 audio_path = os.path.join(mAUDIO_UPLOAD_TEMP_DIR, audio_filename)
