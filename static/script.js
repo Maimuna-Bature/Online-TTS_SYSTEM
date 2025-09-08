@@ -72,5 +72,66 @@ document.addEventListener('DOMContentLoaded', function() {
             filenameModal.style.display = 'none';
         });
     }
+
+    // Add file processing indicator
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const fileInput = document.getElementById('file');
+        const textInput = document.getElementById('text');
+        
+        if (fileInput.files[0] || textInput.value.length > 1000) {
+            document.getElementById('loading-indicator').style.display = 'block';
+            
+            // Simulate progress for visual feedback
+            let progress = 0;
+            const progressFill = document.querySelector('.progress-fill');
+            const interval = setInterval(() => {
+                if (progress < 90) {
+                    progress += Math.random() * 10;
+                    progressFill.style.width = `${progress}%`;
+                }
+            }, 500);
+            
+            // Clean up interval after form submission
+            setTimeout(() => {
+                clearInterval(interval);
+                progressFill.style.width = '100%';
+            }, 10000);
+        }
+    });
+
+    document.getElementById('file').addEventListener('change', function() {
+        const fileIndicator = document.getElementById('file-size-indicator');
+        const sizeText = document.getElementById('file-size-text');
+        const statusDot = document.querySelector('.size-status-dot');
+        const maxSize = 25 * 1024 * 1024; // 25MB in bytes
+
+        if (this.files[0]) {
+            const size = this.files[0].size;
+            const formattedSize = formatFileSize(size);
+            
+            fileIndicator.style.display = 'inline-flex';
+            sizeText.textContent = `File size: ${formattedSize}`;
+            
+            if (size > maxSize) {
+                statusDot.className = 'size-status-dot size-error';
+                sizeText.style.color = '#f44336';
+            } else {
+                statusDot.className = 'size-status-dot size-ok';
+                sizeText.style.color = '#4CAF50';
+            }
+        } else {
+            fileIndicator.style.display = 'none';
+        }
+    });
+
+    function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
 });
 

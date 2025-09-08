@@ -24,6 +24,11 @@
                         <input type="file" id="file" name="file" accept=".docx,.pdf,.xlsx,.jpg,.jpeg,.png" hidden>
                     </label>
                 </div>
+                <!-- Add this div for file size indicator -->
+                <div id="file-size-indicator" class="file-size-indicator" style="display:none;">
+                    <span id="file-size-text"></span>
+                    <div class="size-status-dot"></div>
+                </div>
                 <label class="tts-label" for="voice">Voices:</label>
                 <select id="voice" name="voice">
                     {% for label, value in edge_tts_voices.items() %}
@@ -55,6 +60,13 @@
             {% if error_message %}
             <div class="error-message">{{ error_message }}</div>
             {% endif %}
+            <div id="loading-indicator" class="loading-indicator" style="display:none;">
+                <div class="spinner"></div>
+                <p class="loading-text">Processing large file... Please wait</p>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+            </div>
         </section>
     </main>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
