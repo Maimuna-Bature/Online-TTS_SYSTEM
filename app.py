@@ -86,50 +86,73 @@ def index():
 
         # Handle file upload
         if uploaded_file and uploaded_file.filename != '':
-            file_extension = os.path.splitext(uploaded_file.filename)[1].lower()
-            if file_extension not in ['.docx', '.pdf', '.xlsx', '.jpg', '.jpeg', '.png']:
-                error_message = "Unsupported file type. Please upload a .docx, .pdf, .xlsx, .jpg, or .png file."
+            # Check file size (limit to 25MB)
+            file_size = uploaded_file.seek(0, 2)  # Seek to end of file
+            uploaded_file.seek(0)  # Reset file pointer
+            
+            if file_size > 25 * 1024 * 1024:  # 25MB in bytes
+                error_message = "File too large. Please upload a file smaller than 25MB."
             else:
-                temp_upload_path = os.path.join(mAUDIO_UPLOAD_TEMP_DIR, uploaded_file.filename)
-                uploaded_file.save(temp_upload_path)
-                try:
-                    if file_extension == '.docx':
-                        import docx
-                        doc = docx.Document(temp_upload_path)
-                        raw_text = '\n'.join([p.text for p in doc.paragraphs])
-                        processed_text = process_text_for_speech(raw_text)
-                    elif file_extension == '.pdf':
-                        from pdfminer.high_level import extract_text
-                        raw_text = extract_text(temp_upload_path)
-                        processed_text = process_text_for_speech(raw_text)
-                    elif file_extension == '.xlsx':
-                        import openpyxl
-                        wb = openpyxl.load_workbook(temp_upload_path, data_only=True)
-                        text_chunks = []
-                        for sheet in wb.worksheets:
-                            for row in sheet.iter_rows(values_only=True):
-                                row_text = ', '.join(str(cell) for cell in row if cell)
-                                if row_text:
-                                    text_chunks.append(row_text)
-                        raw_text = '. '.join(text_chunks)
-                        processed_text = process_text_for_speech(raw_text)
-                    elif file_extension in ['.jpg', '.jpeg', '.png']:
-                        from PIL import Image
-                        import pytesseract
-                        try:
-                            img = Image.open(temp_upload_path)
-                            extracted_text = pytesseract.image_to_string(img)
-                            if extracted_text:
-                                # Process image text without SSML
-                                processed_text = process_text_for_speech(extracted_text, is_image=True)
-                            else:
-                                error_message = "No text could be extracted from the image."
-                        except Exception as e:
-                            error_message = f"Error processing image: {e}"
-                except Exception as e:
-                    error_message = f"Error reading file: {e}"
-                finally:
-                    os.remove(temp_upload_path)
+                file_extension = os.path.splitext(uploaded_file.filename)[1].lower()
+                if file_extension not in ['.docx', '.pdf', '.xlsx', '.jpg', '.jpeg', '.png']:
+                    error_message = "Unsupported file type. Please upload a .docx, .pdf, .xlsx, .jpg, or .png file."
+                else:
+                    temp_upload_path = os.path.join(mAUDIO_UPLOAD_TEMP_DIR, uploaded_file.filename)
+                    uploaded_file.save(temp_upload_path)
+                    try:
+                        if file_extension == '.docx':
+                            import docx
+                            doc = docx.Document(temp_upload_path)
+                            # Process all paragraphs and tables
+                            text_parts = []
+                            
+                            # Get text from paragraphs
+                            for para in doc.paragraphs:
+                                if para.text.strip():
+                                    text_parts.append(para.text)
+                            
+                            # Get text from tables
+                            for table in doc.tables:
+                                for row in table.rows:
+                                    row_text = ' '.join(cell.text.strip() for cell in row.cells if cell.text.strip())
+                                    if row_text:
+                                        text_parts.append(row_text)
+                            
+                            raw_text = '\n'.join(text_parts)
+                            processed_text = process_text_for_speech(raw_text)
+
+                        elif file_extension == '.pdf':
+                            from pdfminer.high_level import extract_text
+                            raw_text = extract_text(temp_upload_path, maxpages=None)  # None means process all pages
+                            processed_text = process_text_for_speech(raw_text)
+                        elif file_extension == '.xlsx':
+                            import openpyxl
+                            wb = openpyxl.load_workbook(temp_upload_path, data_only=True)
+                            text_chunks = []
+                            for sheet in wb.worksheets:
+                                for row in sheet.iter_rows(values_only=True):
+                                    row_text = ', '.join(str(cell) for cell in row if cell)
+                                    if row_text:
+                                        text_chunks.append(row_text)
+                            raw_text = '. '.join(text_chunks)
+                            processed_text = process_text_for_speech(raw_text)
+                        elif file_extension in ['.jpg', '.jpeg', '.png']:
+                            from PIL import Image
+                            import pytesseract
+                            try:
+                                img = Image.open(temp_upload_path)
+                                extracted_text = pytesseract.image_to_string(img)
+                                if extracted_text:
+                                    # Process image text without SSML
+                                    processed_text = process_text_for_speech(extracted_text, is_image=True)
+                                else:
+                                    error_message = "No text could be extracted from the image."
+                            except Exception as e:
+                                error_message = f"Error processing image: {e}"
+                    except Exception as e:
+                        error_message = f"Error reading file: {e}"
+                    finally:
+                        os.remove(temp_upload_path)
         elif text_input:
             processed_text = process_text_for_speech(text_input)
         else:
