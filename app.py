@@ -43,24 +43,27 @@ async def synthesize_edge_tts(text, voice, output_path):
     communicate = edge_tts.Communicate(text, voice)
     await communicate.save(output_path)
 
-def process_text_for_speech(text):
+def process_text_for_speech(text, is_image=False):
     # Clean up excessive whitespace
     text = ' '.join(text.split())
     
-    # Remove specific punctuation but keep essential ones
-    keep_punctuation = {'.', '!', '?', ',', ';', ':'}
-    cleaned_text = ''
-    for char in text:
-        if char in keep_punctuation or char.isalnum() or char.isspace():
-            cleaned_text += char
-    
-    # Add SSML tags for better speech
-    text = f"""<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis">
-        <prosody rate="0.95" pitch="0">
-            {cleaned_text}
-        </prosody>
-    </speak>"""
-    return text
+    if is_image:
+        # For images, return clean text without SSML
+        return text
+    else:
+        # Keep essential punctuation for other file types
+        keep_punctuation = {'.', '!', '?', ',', ';', ':'}
+        cleaned_text = ''
+        for char in text:
+            if char in keep_punctuation or char.isalnum() or char.isspace():
+                cleaned_text += char
+        
+        # Add SSML only for non-image text
+        return f"""<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis">
+            <prosody rate="0.95" pitch="0">
+                {cleaned_text}
+            </prosody>
+        </speak>"""
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -114,11 +117,10 @@ def index():
                         import pytesseract
                         try:
                             img = Image.open(temp_upload_path)
-                            # Extract text from image
                             extracted_text = pytesseract.image_to_string(img)
                             if extracted_text:
-                                # Just clean up basic formatting without SSML
-                                processed_text = extracted_text.strip()
+                                # Process image text without SSML
+                                processed_text = process_text_for_speech(extracted_text, is_image=True)
                             else:
                                 error_message = "No text could be extracted from the image."
                         except Exception as e:
@@ -135,15 +137,11 @@ def index():
         # Convert text to speech and save to temp file
         if not error_message and processed_text.strip():
             try:
-                # Only apply SSML if the text doesn't already have SSML tags
-                if not processed_text.startswith('<speak'):
-                    ssml_text = process_text_for_speech(processed_text)
-                else:
-                    ssml_text = processed_text
-                
                 audio_filename = f"m{int(time.time())}_{os.getpid()}.mp3"
                 audio_path = os.path.join(mAUDIO_UPLOAD_TEMP_DIR, audio_filename)
-                asyncio.run(synthesize_edge_tts(ssml_text, selected_voice, audio_path))
+                # Convert text to speech directly without SSML tags
+                communicate = edge_tts.Communicate(processed_text, selected_voice)
+                asyncio.run(communicate.save(audio_path))
                 # Store info in session
                 session['audio_filename'] = audio_filename
                 session['custom_filename'] = custom_filename
