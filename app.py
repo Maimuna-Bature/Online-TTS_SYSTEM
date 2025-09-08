@@ -43,6 +43,25 @@ async def synthesize_edge_tts(text, voice, output_path):
     communicate = edge_tts.Communicate(text, voice)
     await communicate.save(output_path)
 
+def process_text_for_speech(text):
+    # Clean up excessive whitespace
+    text = ' '.join(text.split())
+    
+    # Remove specific punctuation but keep essential ones
+    keep_punctuation = {'.', '!', '?', ',', ';', ':'}
+    cleaned_text = ''
+    for char in text:
+        if char in keep_punctuation or char.isalnum() or char.isspace():
+            cleaned_text += char
+    
+    # Add SSML tags for better speech
+    text = f"""<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis">
+        <prosody rate="0.95" pitch="0">
+            {cleaned_text}
+        </prosody>
+    </speak>"""
+    return text
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     error_message = None
@@ -72,18 +91,12 @@ def index():
                         doc = docx.Document(temp_upload_path)
                         processed_text = '\n'.join([p.text for p in doc.paragraphs])
                         processed_text = processed_text.replace('\n', ' ')
-                        punctuation_to_remove = string.punctuation.replace('&', '')
-                        translator = str.maketrans('', '', punctuation_to_remove)
-                        processed_text = processed_text.translate(translator)
-                        processed_text = " ".join(processed_text.split())
+                        processed_text = process_text_for_speech(processed_text)
                     elif file_extension == '.pdf':
                         from pdfminer.high_level import extract_text
                         processed_text = extract_text(temp_upload_path)
                         processed_text = processed_text.replace('\n', ' ')
-                        punctuation_to_remove = string.punctuation.replace('&', '')
-                        translator = str.maketrans('', '', punctuation_to_remove)
-                        processed_text = processed_text.translate(translator)
-                        processed_text = " ".join(processed_text.split())
+                        processed_text = process_text_for_speech(processed_text)
                     elif file_extension == '.xlsx':
                         import openpyxl
                         wb = openpyxl.load_workbook(temp_upload_path, data_only=True)
@@ -95,10 +108,7 @@ def index():
                                         text_chunks.append(str(cell))
                         processed_text = '\n'.join(text_chunks)
                         processed_text = processed_text.replace('\n', ' ')
-                        punctuation_to_remove = string.punctuation.replace('&', '')
-                        translator = str.maketrans('', '', punctuation_to_remove)
-                        processed_text = processed_text.translate(translator)
-                        processed_text = " ".join(processed_text.split())
+                        processed_text = process_text_for_speech(processed_text)
                     elif file_extension in ['.jpg', '.jpeg', '.png']:
                         from PIL import Image
                         import pytesseract
@@ -108,26 +118,25 @@ def index():
                         processed_text = pytesseract.image_to_string(img)
                         if processed_text:
                             # Clean the text by removing punctuation
-                            punctuation_to_remove = string.punctuation
-                            translator = str.maketrans('', '', punctuation_to_remove)
-                            processed_text = processed_text.translate(translator)
-                            processed_text = processed_text.replace('\n', ' ')
-                            processed_text = " ".join(processed_text.split())
+                            processed_text = process_text_for_speech(processed_text)
                 except Exception as e:
                     error_message = f"Error reading file: {e}"
                 finally:
                     os.remove(temp_upload_path)
         elif text_input:
-            processed_text = text_input
+            processed_text = process_text_for_speech(text_input)
         else:
             error_message = "Please provide text input or upload a file."
 
         # Convert text to speech and save to temp file
         if not error_message and processed_text.strip():
             try:
+                # Process text for speech
+                ssml_text = process_text_for_speech(processed_text)
+                
                 audio_filename = f"m{int(time.time())}_{os.getpid()}.mp3"
                 audio_path = os.path.join(mAUDIO_UPLOAD_TEMP_DIR, audio_filename)
-                asyncio.run(synthesize_edge_tts(processed_text, selected_voice, audio_path))
+                asyncio.run(synthesize_edge_tts(ssml_text, selected_voice, audio_path))
                 # Store info in session
                 session['audio_filename'] = audio_filename
                 session['custom_filename'] = custom_filename
