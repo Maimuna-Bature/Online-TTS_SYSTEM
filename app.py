@@ -112,13 +112,16 @@ def index():
                     elif file_extension in ['.jpg', '.jpeg', '.png']:
                         from PIL import Image
                         import pytesseract
-                        # If Tesseract is not in PATH, set the path:
-                        # pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
                         img = Image.open(temp_upload_path)
-                        processed_text = pytesseract.image_to_string(img)
-                        if processed_text:
-                            # Clean the text by removing punctuation
-                            processed_text = process_text_for_speech(processed_text)
+                        # Extract text from image
+                        extracted_text = pytesseract.image_to_string(img)
+                        if extracted_text:
+                            # Clean up the extracted text without adding SSML tags yet
+                            processed_text = ' '.join(extracted_text.split())
+                            # Remove any XML-like content that might have been detected
+                            processed_text = processed_text.replace('<', '').replace('>', '')
+                        else:
+                            error_message = "No text could be extracted from the image."
                 except Exception as e:
                     error_message = f"Error reading file: {e}"
                 finally:
