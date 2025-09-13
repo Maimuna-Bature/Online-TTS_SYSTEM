@@ -98,8 +98,8 @@ def index():
                 error_message = "File too large. Please upload a file smaller than 25MB."
             else:
                 file_extension = os.path.splitext(uploaded_file.filename)[1].lower()
-                if file_extension not in ['.docx', '.pdf', '.xlsx', '.jpg', '.jpeg', '.png']:
-                    error_message = "Unsupported file type. Please upload a .docx, .pdf, .xlsx, .jpg, or .png file."
+                if file_extension not in ['.docx', '.pdf', '.jpg', '.jpeg', '.png']:
+                    error_message = "Unsupported file type. Please upload a .docx, .pdf, .jpg, or .png file."
                 else:
                     temp_upload_path = os.path.join(mAUDIO_UPLOAD_TEMP_DIR, uploaded_file.filename)
                     uploaded_file.save(temp_upload_path)
@@ -142,17 +142,6 @@ def index():
                                 processed_text = process_text_for_speech(raw_text)
                             except Exception as e:
                                 error_message = f"Error processing PDF: {e}"
-                        elif file_extension == '.xlsx':
-                            import openpyxl
-                            wb = openpyxl.load_workbook(temp_upload_path, data_only=True)
-                            text_chunks = []
-                            for sheet in wb.worksheets:
-                                for row in sheet.iter_rows(values_only=True):
-                                    row_text = ', '.join(str(cell) for cell in row if cell)
-                                    if row_text:
-                                        text_chunks.append(row_text)
-                            raw_text = '. '.join(text_chunks)
-                            processed_text = process_text_for_speech(raw_text)
                         elif file_extension in ['.jpg', '.jpeg', '.png']:
                             from PIL import Image
                             import pytesseract

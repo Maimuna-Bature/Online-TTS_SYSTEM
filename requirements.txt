@@ -3,6 +3,5 @@ edge-tts
 gunicorn
 docx
 pdfminer.six
-openpyxl
 pytesseract
 pillow
