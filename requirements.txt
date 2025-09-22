@@ -1,6 +1,6 @@
 Flask
-edge-tts
 gunicorn
+edge-tts
 python-docx
 pdfminer.six
 pytesseract
