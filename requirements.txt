@@ -1,7 +1,7 @@
-Flask==2.0.1
-edge-tts==6.1.5
-gunicorn==20.1.0
-python-docx==0.8.11
-pdfminer.six==20221105
-pytesseract==0.3.10
-Pillow==9.5.0
+Flask
+edge-tts
+gunicorn
+python-docx
+pdfminer.six
+pytesseract
+Pillow
