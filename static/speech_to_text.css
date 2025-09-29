@@ -7,52 +7,63 @@ body, html {
 }
 
 body {
-    background: #f3faf4;
+    background: #eafaf1;
     color: #234d2c;
 }
 
-.navbar {
+nav {
     background: #234d2c;
-    color: #fff;
-    padding: 0.5rem 0;
-    box-shadow: 0 2px 8px rgba(35,77,44,0.08);
+    padding: 10px 0;
 }
-.navbar .container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-.logo {
-    font-size: 1.3rem;
-    font-weight: bold;
-    letter-spacing: 1px;
-}
-.navbar ul {
+nav ul {
     list-style: none;
     display: flex;
+    justify-content: center;
     gap: 30px;
     margin: 0;
     padding: 0;
 }
-.navbar ul li a {
+nav ul li a {
     color: #fff;
     text-decoration: none;
-    font-weight: 500;
-    transition: color 0.2s;
+    font-weight: bold;
 }
-.navbar ul li a:hover {
-    color: #ff5252;
-}
-
-.container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 20px;
+nav ul li a:hover {
+    text-decoration: underline;
 }
 
+.intro {
+    text-align: center;
+    margin-top: 40px;
+}
+.profile-photo {
+    border-radius: 50%;
+    margin: 20px 0;
+}
+.btn {
+    display: inline-block;
+    margin: 15px 10px;
+    padding: 10px 25px;
+    background: #27ae60;
+    color: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+}
+.btn:hover {
+    background: #2ecc71;
+}
+footer {
+    text-align: center;
+    padding: 20px 0;
+    background: #234d2c;
+    color: #fff;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+/* Card style for converter */
 .tts-card {
     background: #fff;
     border-radius: 14px;
@@ -63,9 +74,6 @@ body {
     margin: 40px auto;
     text-align: center;
     transition: box-shadow 0.2s;
-}
-.tts-card:hover {
-    box-shadow: 0 8px 24px rgba(35,77,44,0.18);
 }
 .tts-card h2 {
     color: #27ae60;
@@ -80,33 +88,6 @@ body {
 .tts-card img {
     margin-top: 18px;
     opacity: 0.8;
-}
-
-.btn {
-    display: inline-block;
-    margin: 18px 10px 0 10px;
-    padding: 12px 28px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1rem;
-    background: #27ae60;
-    color: #fff;
-    transition: background 0.2s, color 0.2s;
-    box-shadow: 0 2px 8px rgba(35,77,44,0.08);
-}
-.btn:hover {
-    background: #2ecc71;
-    color: #fff;
-}
-
-footer {
-    text-align: center;
-    padding: 20px 0;
-    background: #234d2c;
-    color: #fff;
-    font-size: 1rem;
-    margin-top: 40px;
 }
 
 /* Responsive adjustments for mobile */
