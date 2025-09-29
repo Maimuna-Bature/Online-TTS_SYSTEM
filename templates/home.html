@@ -6,27 +6,53 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <nav>
-        <ul>
-            <li><a href="{{ url_for('home') }}">Home</a></li>
-            <li><a href="{{ url_for('index') }}">Text-to-Speech</a></li>
-            <li><a href="{{ url_for('speech_to_text') }}">Speech-to-Text</a></li>
-        </ul>
-    </nav>
-    <section class="intro">
-        <h1>Unique TTS System</h1>
-        <p>By <strong>Maimuna Abdulkadir Usman</strong></p>
-        <img src="https://via.placeholder.com/120x120.png?text=Your+Photo" alt="Your Photo" class="profile-photo">
-        <p>
-            Welcome to my Final Year Project! This site lets you:
+    <nav class="navbar">
+        <div class="container">
+            <span class="logo">Unique TTS System</span>
             <ul>
-                <li>Convert text, documents, and images to speech (Text-to-Speech)</li>
-                <li>Convert audio files to written text (Speech-to-Text)</li>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('index') }}">Text-to-Speech</a></li>
+                <li><a href="{{ url_for('speech_to_text') }}">Speech-to-Text</a></li>
             </ul>
-        </p>
-        <a class="btn" href="{{ url_for('index') }}">Try Text-to-Speech</a>
-        <a class="btn" href="{{ url_for('speech_to_text') }}">Try Speech-to-Text</a>
-    </section>
+        </div>
+    </nav>
+    <header class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <img src="https://via.placeholder.com/120x120.png?text=Your+Photo" alt="Your Photo" class="profile-photo">
+                <div>
+                    <h1>Welcome to Unique TTS System</h1>
+                    <p class="author">By <strong>Maimuna Abdulkadir Usman</strong></p>
+                    <p class="desc">
+                        Your all-in-one solution for converting text, documents, images, and audio files. 
+                        <br>
+                        <span class="highlight">Fast, accurate, and easy to use!</span>
+                    </p>
+                    <div class="hero-buttons">
+                        <a class="btn primary" href="{{ url_for('index') }}">Text-to-Speech</a>
+                        <a class="btn secondary" href="{{ url_for('speech_to_text') }}">Speech-to-Text</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="features container">
+        <h2>Features</h2>
+        <div class="feature-cards">
+            <div class="card">
+                <h3>Text-to-Speech</h3>
+                <p>Convert text, documents (.docx, .pdf), and images to natural-sounding speech using advanced AI voices.</p>
+            </div>
+            <div class="card">
+                <h3>Speech-to-Text</h3>
+                <p>Upload audio files and get accurate written transcripts in seconds.</p>
+            </div>
+            <div class="card">
+                <h3>Personalized</h3>
+                <p>Choose from multiple voices and customize your experience. All features built by Maimuna Abdulkadir Usman.</p>
+            </div>
+        </div>
+    </main>
     <footer>
         <p>&copy; 2025 Maimuna Abdulkadir Usman</p>
     </footer>
