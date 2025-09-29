@@ -8,6 +8,14 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Add this navigation section at the top -->
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('index') }}">Text-to-Speech</a></li>
+            <li><a href="{{ url_for('speech_to_text') }}">Speech-to-Text</a></li>
+        </ul>
+    </nav>
     <main class="main-bg">
         <section class="tts-card">
             <h1 class="tts-title">Text-to-Speech Converter</h1>

@@ -230,6 +230,15 @@ def serve_audio(audio_filename):
         return send_file(audio_path, mimetype='audio/mp3')
     return "File not found", 404
 
+@app.route('/home')
+def home():
+    return render_template('home.html')
+
+# Placeholder for speech-to-text page
+@app.route('/speech-to-text')
+def speech_to_text():
+    return render_template('speech_to_text.html')
+
 if __name__ == '__main__':
     # Set debug=True for development
     app.run(debug=True, port=5000)

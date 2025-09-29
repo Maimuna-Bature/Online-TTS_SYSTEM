@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome | Unique TTS System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('index') }}">Text-to-Speech</a></li>
+            <li><a href="{{ url_for('speech_to_text') }}">Speech-to-Text</a></li>
+        </ul>
+    </nav>
+    <section class="intro">
+        <h1>Unique TTS System</h1>
+        <p>By <strong>Maimuna Abdulkadir Usman</strong></p>
+        <img src="https://via.placeholder.com/120x120.png?text=Your+Photo" alt="Your Photo" class="profile-photo">
+        <p>
+            Welcome to my Final Year Project! This site lets you:
+            <ul>
+                <li>Convert text, documents, and images to speech (Text-to-Speech)</li>
+                <li>Convert audio files to written text (Speech-to-Text)</li>
+            </ul>
+        </p>
+        <a class="btn" href="{{ url_for('index') }}">Try Text-to-Speech</a>
+        <a class="btn" href="{{ url_for('speech_to_text') }}">Try Speech-to-Text</a>
+    </section>
+    <footer>
+        <p>&copy; 2025 Maimuna Abdulkadir Usman</p>
+    </footer>
+</body>
+</html>

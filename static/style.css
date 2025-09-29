@@ -3,13 +3,14 @@ body, html {
     height: 100%;
     margin: 0;
     padding: 0;
-    font-family: 'Roboto', Arial, sans-serif;
+    font-family: 'Segoe UI', Arial, sans-serif;
 }
 
 body {
-    background: #3B5249;
-    color: #222;
-    font-family: 'Roboto', Arial, sans-serif;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f8f9fa;
+    margin: 0;
+    padding: 0;
 }
 
 .navbar {
@@ -279,13 +280,13 @@ textarea:focus, select:focus {
 }
 
 footer {
-    background: #3B5249;
-    color: #F6EFE6;
     text-align: center;
-    padding: 18px 0 10px 0;
-    font-size: 1rem;
-    letter-spacing: 1px;
-    border-top: 1px solid #2ecc7a22;
+    padding: 20px 0;
+    background: #2c3e50;
+    color: #fff;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
 }
 
 /* Loading indicator styles */
