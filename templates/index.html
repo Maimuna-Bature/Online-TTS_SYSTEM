@@ -13,49 +13,48 @@
             <li><a href="{{ url_for('speech_to_text') }}">Speech-to-Text</a></li>
         </ul>
     </nav>
-    <div style="display: flex; justify-content: center; align-items: center; min-height: 90vh;">
-        <div style="background: #fff; border-radius: 16px; box-shadow: 0 4px 16px rgba(44,62,80,0.10); padding: 32px 24px; width: 100%; max-width: 420px; text-align: center; border: 1px solid #234d2c;">
-            <h2 style="color: #234d2c; font-size: 2rem; margin-bottom: 18px;">Text-to-Speech Converter</h2>
+    <div class="center-container">
+        <div class="tts-card">
+            <h2>Text-to-Speech Converter</h2>
             <form method="POST" enctype="multipart/form-data">
-                <div style="text-align:left; margin-bottom:8px; font-weight:bold;">Enter Text:</div>
-                <textarea name="text" rows="4" style="width:100%; background:#10221b; color:#fff; border-radius:8px; border:1px solid #234d2c; margin-bottom:18px; padding:10px;" placeholder="Type or paste your text here...">{{ processed_text|default('') }}</textarea>
-                <div style="border:1px dashed #234d2c; background:#fdf3e7; border-radius:8px; padding:18px; margin-bottom:12px;">
-                    <label for="file-upload" style="cursor:pointer;">
-                        <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" alt="Upload" style="width:40px; vertical-align:middle;">
-                        <span style="margin-left:10px; color:#234d2c;">Upload .docx, .pdf file or image</span>
+                <div class="label">Enter Text:</div>
+                <textarea name="text" rows="4" placeholder="Type or paste your text here...">{{ processed_text|default('') }}</textarea>
+                <div class="file-upload-box">
+                    <label for="file-upload" class="file-upload-label">
+                        <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" alt="Upload">
+                        <span>Upload .docx, .pdf file or image</span>
                     </label>
-                    <input id="file-upload" type="file" name="file" style="display:none;" accept=".docx,.pdf,.jpg,.jpeg,.png">
+                    <input id="file-upload" type="file" name="file" class="file-input" accept=".docx,.pdf,.jpg,.jpeg,.png">
                     {% if file_name %}
-                        <div style="margin-top:10px; color:#234d2c;">{{ file_name }} selected</div>
+                        <div class="file-name">{{ file_name }} selected</div>
                     {% endif %}
                 </div>
-                <!-- Add this div for file size indicator -->
                 <div id="file-size-indicator" class="file-size-indicator" style="display:none;">
                     <span id="file-size-text"></span>
                     <div class="size-status-dot"></div>
                 </div>
-                <div style="text-align:left; margin-bottom:8px; font-weight:bold;">Voices:</div>
-                <select name="voice" style="width:100%; background:#10221b; color:#fff; border-radius:8px; border:1px solid #234d2c; margin-bottom:18px; padding:10px;">
+                <div class="label">Voices:</div>
+                <select name="voice">
                     {% for label, value in edge_tts_voices.items() %}
                     <option value="{{ value }}" {% if selected_voice == value %}selected{% endif %}>{{ label }}</option>
                     {% endfor %}
                 </select>
-                <button type="submit" class="btn" style="width:100%; background:#ffe066; color:#234d2c; font-weight:bold; font-size:1.1rem;">Convert</button>
+                <button type="submit" class="btn">Convert</button>
             </form>
             {% if audio_filename %}
-            <div class="audio-preview" style="margin-top:18px;">
-                <audio controls style="width:100%;">
+            <div class="audio-preview">
+                <audio controls>
                     <source src="{{ url_for('serve_audio', audio_filename=audio_filename) }}" type="audio/mp3">
                     Your browser does not support the audio element.
                 </audio>
-                <button type="button" class="download-btn" id="custom-download-btn" data-audio="{{ audio_filename }}" style="width:100%; background:#ffe066; color:#234d2c; font-weight:bold; font-size:1.1rem; margin-top:12px;">Download</button>
+                <button type="button" class="download-btn" id="custom-download-btn" data-audio="{{ audio_filename }}">Download</button>
             </div>
             <div id="filename-modal" class="modal-section" style="display:none;">
                 <div class="modal-content">
                     <label for="custom-filename-input">Enter file name:</label>
                     <input type="text" id="custom-filename-input" placeholder="e.g. my_audio">
                     <button id="confirm-download-btn" class="tts-btn">Download</button>
-                    <button id="cancel-download-btn" class="tts-btn" style="background:#ccc;color:#333;">Cancel</button>
+                    <button id="cancel-download-btn" class="tts-btn cancel-btn">Cancel</button>
                 </div>
             </div>
             {% endif %}

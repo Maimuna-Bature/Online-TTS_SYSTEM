@@ -7,25 +7,47 @@
 </head>
 <body>
     <nav class="navbar">
-        <div class="container">
-            <span class="logo">Unique TTS System</span>
-            <ul>
-                <li><a href="{{ url_for('home') }}">Home</a></li>
-                <li><a href="{{ url_for('index') }}">Text-to-Speech</a></li>
-                <li><a href="{{ url_for('speech_to_text') }}">Speech-to-Text</a></li>
-            </ul>
-        </div>
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('index') }}">Text-to-Speech</a></li>
+            <li><a href="{{ url_for('speech_to_text') }}">Speech-to-Text</a></li>
+        </ul>
     </nav>
-    <main class="container">
-        <div class="tts-card" style="max-width: 400px; margin: 40px auto;">
-            <h2 style="text-align:center; color:#2980b9;">Speech-to-Text Converter</h2>
-            <p style="text-align:center;">Upload your audio file and get the written text instantly.</p>
-            <!-- Form will be added soon! -->
-            <div style="text-align:center; margin-top:30px;">
-                <img src="https://cdn-icons-png.flaticon.com/512/727/727245.png" alt="Microphone" style="width:60px; opacity:0.7;">
+    <div class="center-container">
+        <div class="tts-card">
+            <h2>Speech-to-Text Converter</h2>
+            <form method="POST" enctype="multipart/form-data">
+                <label class="form-label">Upload Audio File:</label>
+                <div class="file-upload-box">
+                    <label for="audio-upload" class="file-upload-label">
+                        <img src="https://cdn-icons-png.flaticon.com/512/727/727245.png" alt="Microphone">
+                        <span>Upload .wav, .mp3 file</span>
+                    </label>
+                    <input id="audio-upload" type="file" name="audio_file" class="file-input" accept=".wav,.mp3">
+                    {% if file_name %}
+                        <div class="file-name">{{ file_name }} selected</div>
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn convert-btn">Convert</button>
+            </form>
+            {% if transcript %}
+            <div class="transcript-preview">
+                <h3>Transcribed Text:</h3>
+                <textarea readonly class="tts-textarea">{{ transcript }}</textarea>
+                <button type="button" class="btn download-btn">Download Text</button>
+            </div>
+            {% endif %}
+            {% if error_message %}
+            <div class="error-message">{{ error_message }}</div>
+            {% endif %}
+            <div id="loading-indicator" class="loading-indicator" style="display:none;">
+                <p class="loading-text">Processing audio... Please wait</p>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
             </div>
         </div>
-    </main>
+    </div>
     <footer>
         <p>&copy; 2025 Maimuna Abdulkadir Usman</p>
     </footer>

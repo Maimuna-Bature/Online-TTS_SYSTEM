@@ -4,19 +4,14 @@ body, html {
     margin: 0;
     padding: 0;
     font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f8f9fa;
 }
 
-body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: #f8f9fa;
-    margin: 0;
-    padding: 0;
-}
-nav {
+.navbar {
     background: #2c3e50;
     padding: 10px 0;
 }
-nav ul {
+.navbar ul {
     list-style: none;
     display: flex;
     justify-content: center;
@@ -24,41 +19,283 @@ nav ul {
     margin: 0;
     padding: 0;
 }
-nav ul li a {
+.navbar ul li a {
     color: #fff;
     text-decoration: none;
     font-weight: bold;
 }
-nav ul li a:hover {
+.navbar ul li a:hover {
     text-decoration: underline;
 }
-.intro {
-    text-align: center;
-    margin-top: 40px;
+
+.center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 90vh;
 }
-.profile-photo {
-    border-radius: 50%;
-    margin: 20px 0;
-}
-.btn {
-    display: inline-block;
-    margin: 15px 10px;
-    padding: 10px 25px;
-    background: #2980b9;
-    color: #fff;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-}
-.btn:hover {
-    background: #3498db;
-}
-footer {
-    text-align: center;
-    padding: 20px 0;
-    background: #2c3e50;
-    color: #fff;
-    position: fixed;
+
+.tts-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(44,62,80,0.10);
+    padding: 32px 24px;
     width: 100%;
-    bottom: 0;
+    max-width: 420px;
+    text-align: center;
+    border: 1px solid #234d2c;
+}
+
+h2 {
+    color: #234d2c;
+    font-size: 2rem;
+    margin-bottom: 18px;
+}
+
+.form-label {
+    text-align: left;
+    margin-bottom: 8px;
+    font-weight: bold;
+    display: block;
+}
+
+.tts-textarea {
+    width: 100%;
+    background: #10221b;
+    color: #fff;
+    border-radius: 8px;
+    border: 1px solid #234d2c;
+    margin-bottom: 18px;
+    padding: 10px;
+    font-size: 1rem;
+    resize: vertical;
+}
+
+/* File upload box */
+div[style*="border:1px dashed"] {
+    border: 1px dashed #234d2c;
+    background: #fdf3e7;
+    border-radius: 8px;
+    padding: 18px;
+    margin-bottom: 12px;
+}
+
+/* File upload icon */
+label[for="file-upload"] img {
+    width: 40px;
+    vertical-align: middle;
+}
+
+/* File name text */
+div[style*="margin-top:10px"] {
+    color: #234d2c;
+}
+
+.file-upload-label span {
+    margin-left: 10px;
+    color: #234d2c;
+}
+.file-input {
+    display: none;
+}
+.file-name {
+    margin-top: 10px;
+    color: #234d2c;
+}
+
+/* Select dropdown */
+select {
+    width: 100%;
+    background: #10221b;
+    color: #fff;
+    border-radius: 8px;
+    border: 1px solid #234d2c;
+    margin-bottom: 18px;
+    padding: 10px;
+    font-size: 1rem;
+}
+
+/* Convert button */
+.btn, .download-btn {
+    width: 100%;
+    background: #ffe066;
+    color: #234d2c;
+    font-weight: bold;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 0;
+    margin-top: 0;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.btn:hover, .download-btn:hover {
+    background: #ffec99;
+}
+
+/* Audio preview */
+.audio-preview {
+    margin-top: 18px;
+}
+.audio-preview audio {
+    width: 100%;
+    margin-top: 12px;
+}
+
+.download-btn {
+    margin-top: 12px;
+}
+
+/* Modal section for filename */
+.modal-section {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(44,62,80,0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+.modal-content {
+    background: #fff;
+    padding: 24px 18px;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(44,62,80,0.10);
+    text-align: center;
+    min-width: 260px;
+}
+.modal-content input[type="text"] {
+    width: 90%;
+    padding: 8px;
+    margin: 12px 0;
+    border-radius: 6px;
+    border: 1px solid #234d2c;
+    font-size: 1rem;
+}
+.tts-btn {
+    width: 90%;
+    background: #ffe066;
+    color: #234d2c;
+    font-weight: bold;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 0;
+    margin-top: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.tts-btn:hover {
+    background: #ffec99;
+}
+.cancel-btn {
+    background: #e0e0e0;
+    color: #234d2c;
+}
+.cancel-btn:hover {
+    background: #bdbdbd;
+}
+
+/* Error message */
+.error-message {
+    color: #d32f2f;
+    background: #ffeaea;
+    border-radius: 6px;
+    padding: 10px;
+    margin-top: 12px;
+    font-weight: 500;
+}
+
+/* Loading indicator */
+.loading-indicator {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(44,62,80,0.10);
+    z-index: 1001;
+}
+.loading-text {
+    font-size: 1rem;
+    color: #234d2c;
+    margin-bottom: 10px;
+}
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #eee;
+    border-radius: 4px;
+    overflow: hidden;
+}
+.progress-fill {
+    width: 40%;
+    height: 100%;
+    background: #ffe066;
+    animation: spin 1.2s linear infinite;
+}
+@keyframes spin {
+    0% { width: 0; }
+    100% { width: 100%; }
+}
+
+/* File size indicator */
+.file-size-indicator {
+    display: flex;
+    align-items: center;
+    font-size: 0.95rem;
+    color: #27ae60;
+    margin-bottom: 8px;
+}
+.size-status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-left: 6px;
+    background: #27ae60;
+    display: inline-block;
+}
+.size-error {
+    background: #d32f2f !important;
+}
+.file-size-text {
+    margin-right: 6px;
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 600px) {
+    .navbar ul {
+        gap: 16px;
+        font-size: 0.98rem;
+    }
+    .tts-card {
+        padding: 16px 6vw;
+        max-width: 98vw;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(44,62,80,0.08);
+    }
+    h2 {
+        font-size: 1.3rem;
+    }
+    .tts-textarea, .tts-select {
+        font-size: 0.98rem;
+        padding: 8px;
+    }
+    .btn, .tts-btn {
+        font-size: 1rem;
+        padding: 10px 0;
+    }
+    .modal-content {
+        min-width: 180px;
+        padding: 14px 8px;
+    }
+    .audio-preview audio {
+        margin-top: 8px;
+    }
+    footer {
+        font-size: 0.95rem;
+        padding: 12px 0;
+    }
 }

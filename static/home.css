@@ -4,18 +4,15 @@ body, html {
     margin: 0;
     padding: 0;
     font-family: 'Segoe UI', Arial, sans-serif;
-}
-
-body {
     background: #f8f6fa;
     color: #2c3e50;
 }
 
-nav {
+.navbar {
     background: #6c63ff;
     padding: 10px 0;
 }
-nav ul {
+.navbar ul {
     list-style: none;
     display: flex;
     justify-content: center;
@@ -23,25 +20,33 @@ nav ul {
     margin: 0;
     padding: 0;
 }
-nav ul li a {
+.navbar ul li a {
     color: #fff;
     text-decoration: none;
     font-weight: bold;
 }
-nav ul li a:hover {
+.navbar ul li a:hover {
     text-decoration: underline;
 }
 
-.hero {
-    background: linear-gradient(90deg, #e0eafc 0%, #cfdef3 100%);
-    padding: 60px 0 40px 0;
-}
-.hero-content {
+.center-container {
     display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 40px;
-    flex-wrap: wrap;
+    min-height: 90vh;
 }
+
+.home-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(44,62,80,0.10);
+    padding: 32px 24px;
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+    border: 1px solid #6c63ff;
+}
+
 .profile-photo {
     border-radius: 50%;
     box-shadow: 0 4px 16px rgba(44,62,80,0.15);
@@ -49,10 +54,12 @@ nav ul li a:hover {
     height: 120px;
     object-fit: cover;
     background: #fff;
+    margin-bottom: 18px;
 }
-.hero-content h1 {
-    font-size: 2.2rem;
+h1 {
+    font-size: 2rem;
     margin-bottom: 10px;
+    color: #6c63ff;
 }
 .author {
     font-size: 1.1rem;
@@ -97,13 +104,11 @@ nav ul li a:hover {
     background: #ffe066;
 }
 
-.features {
-    margin: 40px auto 60px auto;
-}
-.features h2 {
+h2 {
     text-align: center;
-    font-size: 1.7rem;
-    margin-bottom: 30px;
+    font-size: 1.3rem;
+    margin-bottom: 18px;
+    color: #6c63ff;
 }
 .feature-list {
     margin: 30px auto 40px auto;
@@ -111,6 +116,7 @@ nav ul li a:hover {
     padding: 0 20px;
     font-size: 1.08rem;
     color: #222;
+    text-align: left;
 }
 .feature-list li {
     margin-bottom: 14px;
@@ -131,7 +137,9 @@ footer {
     background: #6c63ff;
     color: #fff;
     font-size: 1rem;
-    margin-top: 40px;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
 }
 
 /* Ensure all elements use border-box sizing */
@@ -141,43 +149,30 @@ footer {
 
 /* Responsive adjustments for mobile */
 @media (max-width: 600px) {
-    .navbar {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 18px 4vw 12px 4vw;
+    .navbar ul {
+        gap: 16px;
+        font-size: 0.98rem;
     }
-
-    .nav-links {
-        margin-top: 10px;
-    }
-
-    .tts-card {
-        padding: 14px 2vw 18px 2vw;
-        max-width: 100vw;
-        border-radius: 0;
-        margin: 0;
-        min-height: 100vh;
-        box-shadow: none;
-    }
-
-    textarea, select {
-        width: 100%;
-        min-width: 0;
-        max-width: 100%;
-        box-sizing: border-box;
-    }
-}
-
-@media (max-width: 500px) {
-    .tts-card {
+    .home-card {
+        padding: 16px 6vw;
         max-width: 98vw;
-        padding: 16px 4vw 14px 4vw;
-        border-radius: 12px;
-        margin-bottom: 12px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(44,62,80,0.08);
     }
-
-    .main-bg {
-        padding: 8px 0;
+    h1 {
+        font-size: 1.3rem;
+    }
+    .btn {
+        font-size: 1rem;
+        padding: 10px 0;
+    }
+    .feature-list {
+        font-size: 0.98rem;
+        padding: 0 8px;
+    }
+    footer {
+        font-size: 0.95rem;
+        padding: 12px 0;
     }
 }
 
