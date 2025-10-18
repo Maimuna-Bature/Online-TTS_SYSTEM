@@ -66,8 +66,10 @@
                 <div class="modal-content">
                     <label for="custom-filename-input">Enter file name:</label>
                     <input type="text" id="custom-filename-input" placeholder="e.g. my_audio">
-                    <button id="confirm-download-btn" class="tts-btn">Download</button>
-                    <button id="cancel-download-btn" class="tts-btn cancel-btn">Cancel</button>
+                    <div class="modal-actions">
+                      <button id="confirm-download-btn" class="tts-btn primary">Download</button>
+                      <button id="cancel-download-btn" class="tts-btn cancel-btn">Cancel</button>
+                    </div>
                 </div>
             </div>
             {% endif %}

@@ -195,15 +195,77 @@ html,body{
 .audio-preview audio{ width:100%; border-radius:8px; background:#fff; padding:6px; box-shadow:0 2px 8px rgba(0,0,0,0.04); }
 .download-btn{ margin-top:6px; }
 
-/* Modal (download filename) */
+/* Modal (download filename) - compact style to match first image */
 .modal-section{
-    position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background: rgba(0,0,0,0.18);
-    z-index:1200;
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.18);
+    z-index: 1200;
 }
+
 .modal-content{
-    background:#fff; padding:18px; border-radius:10px; width:320px; max-width:90vw; text-align:center; box-shadow:0 8px 30px rgba(0,0,0,0.12);
+    background: #fff;
+    padding: 14px 14px;
+    border-radius: 8px;
+    width: 280px;
+    max-width: 92vw;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
-.modal-content input{ width:92%; padding:8px; margin:10px 0; border:1px solid rgba(22,57,49,0.12); border-radius:6px; }
+
+/* input stays full width but smaller height */
+.modal-content input{
+    width: 92%;
+    padding: 8px;
+    margin: 6px auto 0 auto;
+    border: 1px solid rgba(22,57,49,0.12);
+    border-radius: 6px;
+    font-size: 0.95rem;
+}
+
+/* Use compact inline buttons matching first image */
+.modal-content .modal-actions{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    padding-top: 6px;
+}
+
+/* Download (primary) */
+.modal-content .tts-btn.primary {
+    background: var(--button);
+    color: var(--accent);
+    padding: 8px 18px;
+    font-weight: 700;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    min-width: 110px;
+}
+
+/* Cancel (secondary) */
+.modal-content .tts-btn.cancel-btn {
+    background: #e6e6e6;
+    color: #333;
+    padding: 8px 18px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    min-width: 110px;
+}
+
+/* smaller on mobile */
+@media (max-width:480px){
+    .modal-content{ width: 92vw; padding:12px; }
+    .modal-content .tts-btn.primary,
+    .modal-content .tts-btn.cancel-btn { min-width: 48%; padding:10px 12px; }
+}
 
 /* Error */
 .error-message{
