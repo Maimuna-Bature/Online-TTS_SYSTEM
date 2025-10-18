@@ -23,9 +23,9 @@
                 <textarea name="text" rows="5" class="tts-textarea" placeholder="Type or paste your text here...">{{ processed_text|default('') }}</textarea>
 
                 <div class="file-upload-box">
-                    <label for="file-upload" class="file-upload-label">
-                        <img src="{{ url_for('static', filename='icons/folder.png') }}" alt="Upload">
-                        <span>Upload .docx, .pdf file or image</span>
+                    <label for="file-upload" class="file-upload-label" role="button" aria-label="Upload file">
+                        <span class="file-emoji" aria-hidden="true">📁</span>
+                        <span class="file-upload-text">Upload .docx, .pdf file or image</span>
                     </label>
                     <input id="file-upload" type="file" name="file" class="file-input" accept=".docx,.pdf,.jpg,.jpeg,.png">
                     {% if file_name %}
