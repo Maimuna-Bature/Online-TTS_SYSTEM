@@ -3,40 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <title>Welcome | Unique TTS System</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
 </head>
 <body>
     <nav class="navbar">
         <ul>
-            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a class="active" href="{{ url_for('home') }}">Home</a></li>
             <li><a href="{{ url_for('index') }}">Text-to-Speech</a></li>
-            <li><a href="{{ url_for('speech_to_text') }}">Speech-to-Text</a></li>
         </ul>
     </nav>
-    <div class="center-container">
+
+    <main class="center-container">
         <div class="home-card">
-            <img src="https://via.placeholder.com/120x120.png?text=Your+Photo" alt="Your Photo" class="profile-photo">
-            <h1>Welcome to Unique TTS System</h1>
+            <img src="{{ url_for('static','icons/profile.png') }}" alt="Your Photo" class="profile-photo">
+            <h1>Unique TTS System</h1>
             <p class="author">By <strong>Maimuna Abdulkadir Usman</strong></p>
-            <p class="desc">
-                Your all-in-one solution for converting text, documents, images, and audio files.<br>
-                <span class="highlight">Fast, accurate, and easy to use!</span>
-            </p>
+            <p class="desc">Convert text, documents and images to natural-sounding speech with a single click.</p>
+
             <div class="hero-buttons">
                 <a class="btn primary" href="{{ url_for('index') }}">Text-to-Speech</a>
-                <a class="btn secondary" href="{{ url_for('speech_to_text') }}">Speech-to-Text</a>
             </div>
+
             <h2>Features</h2>
             <ul class="feature-list">
                 <li><strong>Text Input:</strong> Type or paste text directly.</li>
-                <li><strong>Document Upload:</strong> Upload .docx or .pdf files for conversion.</li>
-                <li><strong>Image Upload:</strong> Upload images (.jpg, .png) for OCR and speech.</li>
-                <li><strong>Voice Selection:</strong> Choose from multiple AI voices.</li>
-                <li><strong>Speech-to-Text:</strong> Upload audio files (.wav, .mp3) to get written text.</li>
-                <li><strong>Download:</strong> Save your generated audio files.</li>
+                <li><strong>Document Upload:</strong> Upload .docx or .pdf files.</li>
+                <li><strong>Image OCR:</strong> Extract text from images (.jpg, .png).</li>
+                <li><strong>Voice Selection:</strong> Multiple voice options (US/UK).</li>
+                <li><strong>Download:</strong> Save generated audio as MP3.</li>
             </ul>
         </div>
-    </div>
+    </main>
+
     <footer>
         <p>&copy; 2025 Maimuna Abdulkadir Usman</p>
     </footer>

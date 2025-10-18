@@ -4,19 +4,14 @@ import tempfile
 import time
 import asyncio
 import edge_tts
-import pytesseract
 import string
-
-# pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'  # Update this path as needed
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'default_secret_key')
 
-#define a temporary directory for audio files and uploaded files
 mAUDIO_UPLOAD_TEMP_DIR = os.path.join(tempfile.gettempdir(), 'mtts_app_temp_files')
 os.makedirs(mAUDIO_UPLOAD_TEMP_DIR, exist_ok=True)
 
-# List of Edge TTS voices
 EDGE_TTS_VOICES = {
     "English (US) - Aria Female": "en-US-AriaNeural",
     "English (US) - Guy Male": "en-US-GuyNeural",
@@ -25,7 +20,6 @@ EDGE_TTS_VOICES = {
     "English (UK) - Ryan Male": "en-GB-RyanNeural"
 }
 
-#Cleanup old temporary files older than 1 hour
 def cleanup_temp_files():
     now = time.time()
     for filename in os.listdir(mAUDIO_UPLOAD_TEMP_DIR):
@@ -33,8 +27,7 @@ def cleanup_temp_files():
         if os.path.isfile(file_path) and now - os.path.getmtime(file_path) > 3600:
             try:
                 os.remove(file_path)
-                print(f"Cleaned up old temporary file: {file_path}")
-            except Exception as e :
+            except Exception as e:
                 print(f"Error removing old temporary files {file_path}: {e}")
 
 cleanup_temp_files()
@@ -44,22 +37,13 @@ async def synthesize_edge_tts(text, voice, output_path):
     await communicate.save(output_path)
 
 def process_text_for_speech(text, is_image=False):
-    # Clean up excessive whitespace
     text = ' '.join(text.split())
-    
-    # Remove repeated underscores (common in signature lines)
     import re
-    text = re.sub(r'_{3,}', '', text)  # Remove 3 or more consecutive underscores
-    text = re.sub(r'[\-_]{2,}', '', text)  # Remove 2 or more dashes or underscores
-    
-    # Rest of your existing processing
+    text = re.sub(r'_{3,}', '', text)
+    text = re.sub(r'[\-_]{2,}', '', text)
     text = text.replace('*', ',')
     text = text.replace('•', ',')
-    
-    # Handle numbered lists with regex
     text = re.sub(r'(\d+\.)\s', r'\1, ', text)
-    
-    # Add natural pauses by modifying punctuation
     text = text.replace('...', '…')
     text = text.replace('!', '! ')
     text = text.replace('?', '? ')
@@ -67,10 +51,7 @@ def process_text_for_speech(text, is_image=False):
     text = text.replace(';', '; ')
     text = text.replace('.', '. ')
     text = text.replace(',', ', ')
-    
-    # Clean up any double spaces created
     text = ' '.join(text.split())
-    
     return text
 
 @app.route('/', methods=['GET', 'POST'])
@@ -88,13 +69,10 @@ def index():
         custom_filename = request.form.get('custom_filename', '').strip() or "speech"
         selected_voice = request.form.get('voice', selected_voice)
 
-        # Handle file upload
         if uploaded_file and uploaded_file.filename != '':
-            # Check file size (limit to 25MB)
-            file_size = uploaded_file.seek(0, 2)  # Seek to end of file
-            uploaded_file.seek(0)  # Reset file pointer
-            
-            if file_size > 25 * 1024 * 1024:  # 25MB in bytes
+            file_size = uploaded_file.seek(0, 2)
+            uploaded_file.seek(0)
+            if file_size > 25 * 1024 * 1024:
                 error_message = "File too large. Please upload a file smaller than 25MB."
             else:
                 file_extension = os.path.splitext(uploaded_file.filename)[1].lower()
@@ -108,48 +86,30 @@ def index():
                             import docx
                             doc = docx.Document(temp_upload_path)
                             text_parts = []
-                            
-                            # Process document in chunks
-                            chunk_size = 1000  # Process 1000 paragraphs at a time
-                            
-                            # Get text from paragraphs in chunks
-                            for i in range(0, len(doc.paragraphs), chunk_size):
-                                chunk = doc.paragraphs[i:i + chunk_size]
-                                for para in chunk:
-                                    if para.text.strip():
-                                        text_parts.append(para.text)
-                            
-                            # Get text from tables
+                            for para in doc.paragraphs:
+                                if para.text.strip():
+                                    text_parts.append(para.text)
                             for table in doc.tables:
                                 for row in table.rows:
                                     row_text = ' '.join(cell.text.strip() for cell in row.cells if cell.text.strip())
                                     if row_text:
                                         text_parts.append(row_text)
-                            
                             raw_text = '\n'.join(text_parts)
                             processed_text = process_text_for_speech(raw_text)
-
                         elif file_extension == '.pdf':
                             from pdfminer.high_level import extract_text
                             try:
-                                # Extract text with higher memory limit
-                                raw_text = extract_text(
-                                    temp_upload_path,
-                                    maxpages=None,  # Process all pages
-                                    page_numbers=None,
-                                    codec='utf-8',
-                                )
+                                raw_text = extract_text(temp_upload_path, maxpages=None, page_numbers=None, codec='utf-8')
                                 processed_text = process_text_for_speech(raw_text)
                             except Exception as e:
                                 error_message = f"Error processing PDF: {e}"
-                        elif file_extension in ['.jpg', '.jpeg', '.png']:
+                        else:
                             from PIL import Image
                             import pytesseract
                             try:
                                 img = Image.open(temp_upload_path)
                                 extracted_text = pytesseract.image_to_string(img)
                                 if extracted_text:
-                                    # Process image text without SSML
                                     processed_text = process_text_for_speech(extracted_text, is_image=True)
                                 else:
                                     error_message = "No text could be extracted from the image."
@@ -158,30 +118,28 @@ def index():
                     except Exception as e:
                         error_message = f"Error reading file: {e}"
                     finally:
-                        os.remove(temp_upload_path)
+                        try:
+                            os.remove(temp_upload_path)
+                        except Exception:
+                            pass
         elif text_input:
             processed_text = process_text_for_speech(text_input)
         else:
             error_message = "Please provide text input or upload a file."
 
-        # Convert text to speech and save to temp file
         if not error_message and processed_text.strip():
             try:
                 audio_filename = f"m{int(time.time())}_{os.getpid()}.mp3"
                 audio_path = os.path.join(mAUDIO_UPLOAD_TEMP_DIR, audio_filename)
-                
-                # New way to handle TTS conversion
                 text_to_speak = process_text_for_speech(processed_text)
                 communicate = edge_tts.Communicate(
                     text_to_speak,
                     selected_voice,
-                    rate='-10%',    # Slightly slower for better punctuation handling
-                    volume='+0%',   # Normal volume
-                    pitch='+0Hz'    # Normal pitch
+                    rate='-10%',
+                    volume='+0%',
+                    pitch='+0Hz'
                 )
-                
                 asyncio.run(communicate.save(audio_path))
-                # Store info in session
                 session['audio_filename'] = audio_filename
                 session['custom_filename'] = custom_filename
                 session['selected_voice'] = selected_voice
@@ -192,7 +150,6 @@ def index():
         elif not processed_text.strip():
             error_message = "No readable text was found in the file or text input."
 
-    # GET request or after redirect
     audio_filename = session.pop('audio_filename', None)
     custom_filename = session.pop('custom_filename', '')
     selected_voice = session.pop('selected_voice', list(EDGE_TTS_VOICES.values())[0])
@@ -215,7 +172,6 @@ def download_audio(audio_filename):
     audio_path = os.path.join(mAUDIO_UPLOAD_TEMP_DIR, audio_filename)
     if not os.path.exists(audio_path):
         return "File not found", 404
-    # Add .mp3 extension if not present
     if custom_name:
         if not custom_name.lower().endswith('.mp3'):
             custom_name += '.mp3'
@@ -234,13 +190,8 @@ def serve_audio(audio_filename):
 def home():
     return render_template('home.html')
 
-# Placeholder for speech-to-text page
-@app.route('/speech-to-text')
-def speech_to_text():
-    return render_template('speech_to_text.html')
 
 if __name__ == '__main__':
-    # Set debug=True for development
     app.run(debug=True, port=5000)
 
 # =====================================

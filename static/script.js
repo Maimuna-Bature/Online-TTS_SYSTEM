@@ -1,137 +1,85 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const fileInput = document.getElementById('file');
-    const fileNameSpan = document.getElementById('file-name');
-    const textArea = document.getElementById('text'); //gets the texterea element
-    const form = document.querySelector('form'); //gets the form element
-    const submitBtn = form.querySelector('button[type="submit"]');
-    const uploadText = document.getElementById('upload-text');
-
-    // Show selected file name
-    fileInput.addEventListener('change', function() {
-        if (fileInput.files.length > 0) {
-            fileNameSpan.textContent = fileInput.files[0].name;
-            textArea.value = ''; // Clear the textarea when a new file is selected
-        } else {
-            fileNameSpan.textContent = "No file chosen";
-        }
-    });
-
-    //Clear file selection if user types into texterea
-    textArea.addEventListener('input', function() {
-        if (textArea.value.trim() !== '') {
-            fileInput.value = ''; // Clear the file input
-            fileNameSpan.textContent = "No file chosen"; // Update the file name display
-        }
-    });
-
-    //Submit loading feedback
-    form.addEventListener('submit', function() {
-        const isTextEntered = textArea.value.trim() !== '';
-        const isFileSelected = fileInput.files.length > 0;
-
-        if (isTextEntered || isFileSelected) {
-            submitBtn.classList.add('loading');
-            submitBtn.textContent = 'Loading...';
-            submitBtn.disabled = true; // Disable the button to prevent multiple submissions
-        }
-    });
-
-    if (fileInput && uploadText) {
-        fileInput.addEventListener('change', function() {
-            if (this.files && this.files.length > 0) {
-                uploadText.innerHTML = `<b>${this.files[0].name}</b> selected`;
-            } else {
-                uploadText.innerHTML = `Upload <b>.txt</b> or <b>.docx</b> file<br><small>(Click to upload)</small>`;
-            }
-        });
-    }
-
-    const customDownloadBtn = document.getElementById('custom-download-btn');
+document.addEventListener('DOMContentLoaded', () => {
+    const fileInput = document.getElementById('file-upload');
+    const fileNameEl = document.querySelector('.file-name');
+    const fileSizeIndicator = document.getElementById('file-size-indicator');
+    const fileSizeText = document.getElementById('file-size-text');
+    const form = document.querySelector('.tts-form');
+    const loadingIndicator = document.getElementById('loading-indicator');
+    const convertBtn = document.querySelector('.convert-btn');
+    const downloadBtn = document.getElementById('custom-download-btn');
     const filenameModal = document.getElementById('filename-modal');
     const confirmDownloadBtn = document.getElementById('confirm-download-btn');
     const cancelDownloadBtn = document.getElementById('cancel-download-btn');
     const customFilenameInput = document.getElementById('custom-filename-input');
 
-    if (customDownloadBtn) {
-        customDownloadBtn.addEventListener('click', function() {
-            filenameModal.style.display = 'flex';
-            customFilenameInput.value = '';
-            customFilenameInput.focus();
-        });
-    }
-    if (cancelDownloadBtn) {
-        cancelDownloadBtn.addEventListener('click', function() {
-            filenameModal.style.display = 'none';
-        });
-    }
-    if (confirmDownloadBtn) {
-        confirmDownloadBtn.addEventListener('click', function() {
-            const filename = customFilenameInput.value.trim() || 'speech';
-            const audioFilename = customDownloadBtn.getAttribute('data-audio');
-            window.location.href = `/download/${audioFilename}?name=${encodeURIComponent(filename)}`;
-            filenameModal.style.display = 'none';
-        });
+    function humanFileSize(bytes) {
+        if (bytes === 0) return '0 B';
+        const i = Math.floor(Math.log(bytes) / Math.log(1024));
+        const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+        return (bytes / Math.pow(1024, i)).toFixed(i ? 2 : 0) + ' ' + sizes[i];
     }
 
-    // Add file processing indicator
-    document.querySelector('form').addEventListener('submit', function(e) {
-        const fileInput = document.getElementById('file');
-        const textInput = document.getElementById('text');
-        
-        if (fileInput.files[0] || textInput.value.length > 1000) {
-            document.getElementById('loading-indicator').style.display = 'block';
-            
-            // Simulate progress for visual feedback
-            let progress = 0;
-            const progressFill = document.querySelector('.progress-fill');
-            const interval = setInterval(() => {
-                if (progress < 90) {
-                    progress += Math.random() * 10;
-                    progressFill.style.width = `${progress}%`;
-                }
-            }, 500);
-            
-            // Clean up interval after form submission
-            setTimeout(() => {
-                clearInterval(interval);
-                progressFill.style.width = '100%';
-            }, 10000);
-        }
-    });
-
-    document.getElementById('file').addEventListener('change', function() {
-        const fileIndicator = document.getElementById('file-size-indicator');
-        const sizeText = document.getElementById('file-size-text');
-        const statusDot = document.querySelector('.size-status-dot');
-        const maxSize = 25 * 1024 * 1024; // 25MB in bytes
-
-        if (this.files[0]) {
-            const size = this.files[0].size;
-            const formattedSize = formatFileSize(size);
-            
-            fileIndicator.style.display = 'inline-flex';
-            sizeText.textContent = `File size: ${formattedSize}`;
-            
-            if (size > maxSize) {
-                statusDot.className = 'size-status-dot size-error';
-                sizeText.style.color = '#f44336';
-            } else {
-                statusDot.className = 'size-status-dot size-ok';
-                sizeText.style.color = '#4CAF50';
+    // file input -> update UI
+    if (fileInput) {
+        fileInput.addEventListener('change', (e) => {
+            const f = e.target.files[0];
+            if (!f) {
+                if (fileNameEl) fileNameEl.textContent = '';
+                if (fileSizeIndicator) fileSizeIndicator.style.display = 'none';
+                return;
             }
-        } else {
-            fileIndicator.style.display = 'none';
+            if (fileNameEl) fileNameEl.textContent = `${f.name} selected`;
+            if (fileSizeText) fileSizeText.textContent = `File size: ${humanFileSize(f.size)}`;
+            if (fileSizeIndicator) fileSizeIndicator.style.display = 'flex';
+        });
+    }
+
+    // when form submits show loading indicator quickly (server will handle actual work)
+    if (form) {
+        form.addEventListener('submit', () => {
+            if (convertBtn) {
+                convertBtn.disabled = true;
+                convertBtn.style.opacity = '0.85';
+            }
+            if (loadingIndicator) loadingIndicator.style.display = 'block';
+        });
+    }
+
+    // open filename modal to download with custom name
+    if (downloadBtn) {
+        downloadBtn.addEventListener('click', (e) => {
+            const audio = downloadBtn.dataset.audio;
+            if (!audio) return;
+            if (filenameModal) filenameModal.style.display = 'flex';
+            customFilenameInput && (customFilenameInput.value = '');
+            confirmDownloadBtn && (confirmDownloadBtn.dataset.audio = audio);
+        });
+    }
+
+    // confirm download (redirect to download endpoint with custom name)
+    if (confirmDownloadBtn) {
+        confirmDownloadBtn.addEventListener('click', () => {
+            const audio = confirmDownloadBtn.dataset.audio;
+            const name = (customFilenameInput && customFilenameInput.value.trim()) || '';
+            let url = `/download/${encodeURIComponent(audio)}`;
+            if (name) url += `?name=${encodeURIComponent(name)}`;
+            window.location.href = url;
+            // keep modal open until browser navigates (safer UX)
+        });
+    }
+
+    // cancel modal
+    if (cancelDownloadBtn) {
+        cancelDownloadBtn.addEventListener('click', () => {
+            if (filenameModal) filenameModal.style.display = 'none';
+        });
+    }
+
+    // close modal on ESC
+    document.addEventListener('keydown', (ev) => {
+        if (ev.key === 'Escape' && filenameModal && filenameModal.style.display === 'flex') {
+            filenameModal.style.display = 'none';
         }
     });
-
-    function formatFileSize(bytes) {
-        if (bytes === 0) return '0 Bytes';
-        
-        const k = 1024;
-        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-        const i = Math.floor(Math.log(bytes) / Math.log(k));
-        
-        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-    }
 });
 
