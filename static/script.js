@@ -12,6 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const cancelDownloadBtn = document.getElementById('cancel-download-btn');
     const customFilenameInput = document.getElementById('custom-filename-input');
 
+    // NEW: element inside the upload label to show the filename
+    const fileUploadText = document.querySelector('.file-upload-text');
+    const uploadBox = document.querySelector('.file-upload-box');
+
     function humanFileSize(bytes) {
         if (bytes === 0) return '0 B';
         const i = Math.floor(Math.log(bytes) / Math.log(1024));
@@ -25,12 +29,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const f = e.target.files[0];
             if (!f) {
                 if (fileNameEl) fileNameEl.textContent = '';
+                if (fileUploadText) fileUploadText.textContent = 'Upload .docx, .pdf file or image';
                 if (fileSizeIndicator) fileSizeIndicator.style.display = 'none';
+                uploadBox && uploadBox.classList.remove('has-file');
                 return;
             }
-            if (fileNameEl) fileNameEl.textContent = `${f.name} selected`;
+            const displayName = `${f.name} selected`;
+            if (fileNameEl) fileNameEl.textContent = displayName;
+            if (fileUploadText) fileUploadText.textContent = displayName; // show filename in the label
             if (fileSizeText) fileSizeText.textContent = `File size: ${humanFileSize(f.size)}`;
             if (fileSizeIndicator) fileSizeIndicator.style.display = 'flex';
+            uploadBox && uploadBox.classList.add('has-file');
         });
     }
 
@@ -64,7 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
             let url = `/download/${encodeURIComponent(audio)}`;
             if (name) url += `?name=${encodeURIComponent(name)}`;
             window.location.href = url;
-            // keep modal open until browser navigates (safer UX)
         });
     }
 
