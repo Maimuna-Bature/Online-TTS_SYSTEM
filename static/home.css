@@ -91,23 +91,6 @@ html,body{
     line-height: 1.6;
 }
 
-/* Convert Button */
-.btn{
-    display:inline-block;
-    border:none;
-    border-radius: 8px;
-    padding: 14px 28px;
-    background: var(--button-primary);
-    color: #fff;
-    font-weight:700;
-    font-size:1rem;
-    text-decoration: none;
-    cursor:pointer;
-    transition: background 0.2s;
-}
-.btn:hover{
-    background: var(--button-hover);
-}
 
 /* Hero Image/Speaker Icon container */
 .hero-right{
@@ -171,6 +154,25 @@ html,body{
     color: var(--text-muted);
     line-height: 1.5;
     margin: 0;
+}
+
+/* Convert Button */
+.btn{
+    display:inline-block;
+    border:none;
+    border-radius: 8px;
+    padding: 14px 28px;
+    margin-top: 25px;
+    background: var(--button-primary);
+    color: #fff;
+    font-weight:700;
+    font-size:1rem;
+    text-decoration: none;
+    cursor:pointer;
+    transition: background 0.2s;
+}
+.btn:hover{
+    background: var(--button-hover);
 }
 
 /* Footer - Simple style below the content */

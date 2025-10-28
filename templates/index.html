@@ -8,9 +8,10 @@
 </head>
 <body>
     <nav class="navbar">
+        <div class="logo">Unique TTS</div>
         <ul>
             <li><a href="{{ url_for('home') }}">Home</a></li>
-            <li><a class="active" href="{{ url_for('index') }}">Text-to-Speech</a></li>
+            <li><a class="active" href="{{ url_for('index') }}">Converter</a></li>
         </ul>
     </nav>
 
@@ -22,23 +23,24 @@
                 <label class="form-label">Enter Text:</label>
                 <textarea name="text" rows="5" class="tts-textarea" placeholder="Type or paste your text here...">{{ processed_text|default('') }}</textarea>
 
-                <div class="file-upload-box">
+                <div class="file-upload-box {% if file_name %}file-selected{% endif %}">
                     <label for="file-upload" class="file-upload-label" role="button" aria-label="Upload file">
                         <span class="file-emoji" aria-hidden="true">📁</span>
                         <span class="file-upload-text">Upload .docx, .pdf file or image</span>
                     </label>
                     <input id="file-upload" type="file" name="file" class="file-input" accept=".docx,.pdf,.jpg,.jpeg,.png">
-                    {% if file_name %}
-                        <div class="file-name">{{ file_name }} selected</div>
-                    {% endif %}
+                    <div class="file-name">{% if file_name %}{{ file_name }} selected{% endif %}</div>
                 </div>
 
                 <div id="file-size-indicator" class="file-size-indicator" {% if not file_name %}style="display:none"{% endif %}>
-                    <span id="file-size-text">{{ file_size|default('') }}</span>
                     <span class="size-status-dot"></span>
+                    <span id="file-size-text">{% if file_size %}{{ file_size }}{% endif %}</span>
+                    
+<label class="form-label" style="margin-left:auto; margin-bottom:0; font-weight:700;">Voices:</label>
                 </div>
-
-                <label class="form-label">Voices:</label>
+                
+                
+<label class="form-label" id="standalone-voices-label" {% if file_name %}style="display:none;"{% endif %}>Voices:</label>
                 <select name="voice" class="tts-select" aria-label="Select voice">
                     {% for label, value in edge_tts_voices.items() %}
                     <option value="{{ value }}" {% if selected_voice == value %}selected{% endif %}>{{ label }}</option>
@@ -49,7 +51,9 @@
             </form>
 
             {% if success_message %}
-            <div class="status success">{{ success_message }}</div>
+            <div class="status success">
+                Conversion complete! Your audio is ready.
+            </div>
             {% endif %}
 
             {% if audio_filename %}
@@ -64,7 +68,7 @@
 
             <div id="filename-modal" class="modal-section" style="display:none;">
                 <div class="modal-content">
-                    <label for="custom-filename-input">Enter file name:</label>
+                    <label for="custom-filename-input" style="font-weight:600;">Enter file name:</label>
                     <input type="text" id="custom-filename-input" placeholder="e.g. my_audio">
                     <div class="modal-actions">
                       <button id="confirm-download-btn" class="tts-btn primary">Download</button>
@@ -79,8 +83,12 @@
             {% endif %}
 
             <div id="loading-indicator" class="loading-indicator" style="display:none;">
-                <p class="loading-text">Processing file... Please wait</p>
-                <div class="progress-bar"><div class="progress-fill"></div></div>
+                <div class="loading-content">
+                    <p class="loading-text">Processing file... Please wait</p>
+                    <div class="progress-bar-container">
+                        <div class="progress-fill"></div>
+                    </div>
+                </div>
             </div>
 
         </section>

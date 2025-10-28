@@ -1,12 +1,13 @@
 /* Primary design restored — exact sizes for desktop, laptop and mobile */
 
 :root{
-    --bg: #fbefe6;           /* page background */
+    --bg: #f7f1eb;           /* page background - Adjusted to lighter beige as per the index card */
     --card-bg: #ffffff;
     --accent: #163931;       /* dark green */
     --muted: #f7eadf;        /* upload box */
-    --button: #f8df5a;       /* yellow button */
-    --button-hover: #ffec99;
+    --convert-btn-color: #ffeb3c; /* Bright yellow for main button */
+    --button-hover: #f1df36; /* Slightly darker hover */
+    --loading-btn-color: #e55301; /* Orange for the Loading button (image 33411.jpg) */
     --success: #27ae60;
     --danger: #d32f2f;
     --card-width: 420px;
@@ -26,46 +27,61 @@ html,body{
 /* NAV */
 .navbar{
     background: transparent;
-    padding: 18px 0 6px 0;
+    padding: 24px 0 0 0; /* Match spacing from home.css */
+    max-width: 1100px; /* Use a common max-width */
+    margin: 0 auto;
+    display: flex; /* To contain logo and links */
+    justify-content: space-between;
+    align-items: center;
+}
+.navbar .logo { /* NEW: Style for the logo on the converter page */
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent);
+    padding-left: 30px; 
 }
 .navbar ul{
     list-style:none;
     display:flex;
-    gap:18px;
-    justify-content:flex-start;
-    padding-left:28px;
+    gap:30px; /* Match spacing from home.css */
+    justify-content:flex-end;
+    padding-right: 30px; /* Match spacing from home.css */
     margin:0;
 }
 .navbar a{
     color: var(--accent);
     text-decoration:none;
     font-weight:600;
-    font-size:0.98rem;
+    font-size:0.95rem; /* Match font size from home.css */
 }
 .navbar a.active{
-    text-decoration:underline;
+    color: #4CAF50; /* Add an active color for consistency */
+    text-decoration: underline; /* Keep underline for active state */
 }
 
-/* Centered card container */
+
+/* Centered card container - **ADJUSTMENT HERE** */
 .center-container{
-    min-height: calc(100vh - 160px);
-    display:flex;
-    align-items:flex-start;
-    justify-content:center;
-    padding: 60px 20px;
+    /* REMOVED: min-height: 100vh; display:flex; align-items: center; justify-content:center; */
+    /* NEW: Standard content flow. It will be centered horizontally by margin-left/right: auto; */
+    width: 100%;
+    max-width: var(--card-width); 
+    margin: 40px auto 100px auto; /* Top margin, horizontal auto center, bottom padding */
+    padding: 0 20px;
 }
 
-/* Card */
+/* Card - Centered within the container */
 .tts-card{
     width:100%;
-    max-width: var(--card-width);
+    /* max-width is now handled by .center-container */
     background: var(--card-bg);
     border-radius: 12px;
-    border:2px solid rgba(22,57,49,0.12);
     box-shadow: 0 6px 28px rgba(22,57,49,0.06);
     padding: 30px 28px;
     text-align:center;
 }
+
+/* --- Rest of index.css remains unchanged from the previous turn --- */
 
 /* Title */
 .tts-card h2{
@@ -103,15 +119,16 @@ html,body{
 /* File upload */
 .file-upload-box{
     margin-top:18px;
-    border:1.5px dashed rgba(22,57,49,0.25);
+    border:1.5px solid rgba(22,57,49,0.25); 
     background: var(--muted);
-    padding:24px;
+    padding:20px; 
     border-radius:8px;
     display:flex;
     align-items:center;
     justify-content:center;
     gap:12px;
     flex-direction:column;
+    position:relative; 
 }
 .file-upload-label {
     display:flex;
@@ -121,7 +138,7 @@ html,body{
     cursor:pointer;
 }
 .file-emoji{
-    font-size:44px;                /* exact emoji size to match screenshot */
+    font-size:44px;                
     line-height:1;
     display:block;
 }
@@ -129,58 +146,45 @@ html,body{
     color: var(--accent);
     font-weight:600;
     font-size:15px;
-    text-align:center;
-    word-break: break-word;     /* allow long filenames to wrap */
-    max-width: 100%;
 }
 .file-input{ display:none; }
-.file-name{
-    margin-top:8px;
+
+/* File name displayed inside the box (Active state) */
+.file-upload-box.file-selected .file-name{
+    margin: 0; 
     color: var(--accent);
     font-weight:600;
+    padding: 10px 0;
+}
+/* Hide default upload text when a file is selected */
+.file-upload-box.file-selected .file-upload-text,
+.file-upload-box.file-selected .file-emoji {
+    display: none;
+}
+/* Show the file name element when a file is selected (default is hidden in HTML/JS structure) */
+.file-upload-box .file-name {
+    display: none;
+}
+.file-upload-box.file-selected .file-name {
+    display: block;
 }
 
-/* File size indicator */
+/* File size indicator - corrected for compact display */
 .file-size-indicator{
-    display:inline-flex;
+    display:flex;
     align-items:center;
-    gap:10px;
-    margin:10px 0;
+    gap:8px;
+    /* Adjusted margins to precisely match Image 1's compact look */
+    margin: 10px 0 12px 0; /* consistent top/bottom spacing */
     font-size:0.92rem;
     color: var(--success);
-    background: rgba(39,174,96,0.08);         /* soft green background */
-    border: 1px solid rgba(39,174,96,0.16);    /* subtle green border */
-    padding:6px 12px;                          /* pill padding */
-    border-radius: 10px;                       /* pill shape */
-    box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
-    align-self:flex-start;
+    justify-content: flex-start;
+    padding-left: 2px;
+    /* Added display:flex to ensure it's a flex container */
+    display: flex; 
 }
-
-.file-size-indicator #file-size-text,
-.file-size-indicator .file-size-text {
-    color: var(--success);
-    font-weight:500;
-    font-size:0.92em;
-}
-
-/* status dot updated to sit nicely inside the pill */
 .size-status-dot{
-    width:10px;
-    height:10px;
-    border-radius:50%;
-    background:var(--success);
-    box-shadow: 0 0 0 4px rgba(39,174,96,0.06);
-}
-
-/* when error state is needed (example) */
-.file-size-indicator.error{
-    background: rgba(211,47,47,0.06);
-    border-color: rgba(211,47,47,0.14);
-    color: var(--danger);
-}
-.file-size-indicator.error .size-status-dot{
-    background: var(--danger);
-    box-shadow: 0 0 0 4px rgba(211,47,47,0.06);
+    width:10px;height:10px;border-radius:50%;background:var(--success);
 }
 
 /* Voice select */
@@ -192,7 +196,12 @@ html,body{
     border:2px solid rgba(22,57,49,0.12);
     padding:10px;
     font-size:15px;
-    margin-top:6px;
+    margin-top:6px; /* Adjusted to match spacing in Image 1 */
+    appearance: none; 
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23cde6db'%3E%3Cpath d='M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.25 4.25a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 30px;
 }
 
 /* Convert button */
@@ -202,7 +211,7 @@ html,body{
     border:none;
     border-radius:8px;
     padding:14px 14px;
-    background: var(--button);
+    background: var(--convert-btn-color); 
     color: var(--accent);
     font-weight:700;
     font-size:16px;
@@ -212,59 +221,88 @@ html,body{
 }
 .btn:hover{ background: var(--button-hover); }
 
-/* Status message */
+/* Loading State Button (Image 33411.jpg) */
+.btn.loading-btn {
+    background: var(--loading-btn-color); 
+    color: white;
+    pointer-events: none; 
+    opacity: 1; 
+}
+
+/* Status message (Image 33404.jpg) */
 .status.success{
     margin-top:14px;
-    background: #fff6db;
-    border:1px solid rgba(38,120,66,0.08);
-    color: var(--accent);
+    background: #fff6db; 
+    border:1px solid rgba(22,57,49,0.12); 
+    color: var(--accent); 
     padding:10px;
     border-radius:6px;
     font-weight:600;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.status.success::before {
+    content: "✅"; 
+    font-size: 1.1em;
 }
 
 /* Audio preview and download */
 .audio-preview{ margin-top:14px; display:flex; flex-direction:column; gap:10px; align-items:stretch; }
-.audio-preview audio{ width:100%; border-radius:8px; background:#fff; padding:6px; box-shadow:0 2px 8px rgba(0,0,0,0.04); }
-.download-btn{ margin-top:6px; }
+.audio-preview audio{ 
+    width:100%; 
+    border-radius:8px; 
+    background:#fff; 
+    padding:6px; 
+    box-shadow:0 2px 8px rgba(0,0,0,0.04); 
+}
+/* The Download button after conversion is the main yellow button (Image 33404.jpg) */
+.audio-preview .download-btn{ 
+    background: var(--convert-btn-color); 
+    color: var(--accent);
+    margin-top: 6px; 
+} 
 
-/* Modal (download filename) - compact style to match first image */
+
+/* Modal (download filename) - compact style (Image 33406.jpg) */
 .modal-section{
     position: fixed;
     inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0,0,0,0.18);
+    background: rgba(0,0,0,0.4); 
     z-index: 1200;
+    transition: opacity 0.2s;
 }
-
 .modal-content{
     background: #fff;
-    padding: 14px 14px;
-    border-radius: 8px;
-    width: 280px;
-    max-width: 92vw;
+    padding: 24px 24px;
+    border-radius: 12px;
+    width: 300px; 
+    max-width: 90vw;
     text-align: center;
     box-shadow: 0 8px 30px rgba(0,0,0,0.12);
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 12px;
 }
 
 /* input stays full width but smaller height */
 .modal-content input{
-    width: 92%;
-    padding: 8px;
-    margin: 6px auto 0 auto;
+    width: 100%; 
+    padding: 10px;
+    margin: 4px 0 10px 0;
     border: 1px solid rgba(22,57,49,0.12);
-    border-radius: 6px;
-    font-size: 0.95rem;
+    border-radius: 8px;
+    font-size: 1rem;
 }
 
-/* Use compact inline buttons matching first image */
+/* Use compact stacked buttons matching image 33406.jpg */
 .modal-content .modal-actions{
     display: flex;
+    flex-direction: column; 
     gap: 10px;
     justify-content: center;
     padding-top: 6px;
@@ -272,32 +310,40 @@ html,body{
 
 /* Download (primary) */
 .modal-content .tts-btn.primary {
-    background: var(--button);
+    background: var(--convert-btn-color); 
     color: var(--accent);
-    padding: 8px 18px;
+    padding: 12px 18px;
     font-weight: 700;
     border-radius: 8px;
     border: none;
     cursor: pointer;
-    min-width: 110px;
+    width: 100%;
+    min-width: unset; 
+    transition: background 0.18s ease;
+}
+.modal-content .tts-btn.primary:hover {
+    background: var(--button-hover);
 }
 
 /* Cancel (secondary) */
 .modal-content .tts-btn.cancel-btn {
-    background: #e6e6e6;
+    background: #e0e0e0;
     color: #333;
-    padding: 8px 18px;
+    padding: 12px 18px;
     border-radius: 8px;
     border: none;
     cursor: pointer;
-    min-width: 110px;
+    width: 100%;
+    min-width: unset; 
+    transition: background 0.18s ease;
+}
+.modal-content .tts-btn.cancel-btn:hover {
+    background: #cccccc;
 }
 
 /* smaller on mobile */
 @media (max-width:480px){
-    .modal-content{ width: 92vw; padding:12px; }
-    .modal-content .tts-btn.primary,
-    .modal-content .tts-btn.cancel-btn { min-width: 48%; padding:10px 12px; }
+    .modal-content{ width: 92vw; padding:18px; }
 }
 
 /* Error */
@@ -308,21 +354,58 @@ html,body{
     padding:10px;
     border-radius:6px;
     font-weight:600;
+    text-align: left;
+}
+.error-message::before {
+    content: "❌ ";
 }
 
-/* Loading */
-.loading-indicator{ display:none; position:fixed; left:50%; top:50%; transform:translate(-50%,-50%); background:#fff; padding:18px; border-radius:10px; box-shadow:0 8px 30px rgba(0,0,0,0.12); z-index:1300; }
-.progress-bar{ width:260px; height:8px; background:#f0f0f0; border-radius:6px; overflow:hidden; margin:8px auto 0; }
-.progress-fill{ width:30%; height:100%; background:var(--button); animation:progress 1.4s linear infinite; }
-@keyframes progress{ 0%{width:0} 100%{width:100%} }
+/* Loading Indicator - full screen overlay as per image 33411.jpg */
+.loading-indicator{ 
+    position: fixed; 
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.4); 
+    z-index: 1300; 
+    transition: opacity 0.2s;
+    }
+.loading-indicator .loading-content {
+    background: #fff; 
+    padding: 18px 24px;
+    border-radius:10px; 
+    box-shadow:0 8px 30px rgba(0,0,0,0.12); 
+    width: 300px;
+    text-align: center;
+}
+.loading-text{
+    margin: 0 0 10px 0;
+    color: var(--accent);
+    font-weight: 600;
+}
+.progress-bar-container{ 
+    width:100%; 
+    height:8px; 
+    background:#f0f0f0; 
+    border-radius:6px; 
+    overflow:hidden; 
+    margin:8px auto 0; 
+}
+.progress-fill{ 
+    width:30%; 
+    height:100%; 
+    background:var(--loading-btn-color); 
+    animation:progress 1.4s linear infinite; 
+}
 
 /* Footer */
-footer{ text-align:center; color: #777; padding:22px 0 40px 0; font-size:0.95rem; }
+footer{ text-align:center; color: #777; padding:22px 0 40px 0; font-size:0.95rem; max-width: 1100px; margin: 0 auto; } /* Added max-width and auto margins for consistency */
 
 /* Responsive behaviour */
 @media (max-width: 900px){
     :root{ --card-width: 360px; }
-    .center-container{ padding-top:40px; }
+    .center-container{ margin: 40px auto 80px auto; }
 }
 @media (max-width: 480px){
     :root{ --card-width: 340px; }
@@ -331,5 +414,7 @@ footer{ text-align:center; color: #777; padding:22px 0 40px 0; font-size:0.95rem
     .tts-textarea{ min-height:88px; font-size:14px; padding:10px; }
     .file-upload-box{ padding:16px; }
     .navbar ul{ padding-left:12px; gap:12px; }
+    .navbar .logo { padding-left: 12px; }
+    .navbar ul { padding-right: 12px; }
     footer{ padding-bottom:20px; }
 }
