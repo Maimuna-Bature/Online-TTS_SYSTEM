@@ -193,7 +193,7 @@ footer{
 
 
 
-/* Tablet/Smaller Desktop (3 columns) */
+/* Tablet/Smaller Desktop */
 @media (max-width: 1100px) {
     .feature-grid{
         grid-template-columns: repeat(3, 1fr);
