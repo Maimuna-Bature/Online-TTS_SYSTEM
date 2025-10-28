@@ -1,44 +1,237 @@
-/* Color and background variables */
+/* Home Page Design based on '16Project update.jpg' */
+
+/* Color and background variables from index.css for consistency */
 :root{
-    --bg: #fbefe6;
-    --card: #fff;
-    --accent: #163931;
-    --primary: #6c63ff;
-    --gold: #ffd54a;
+    --bg: #f7f1eb;           /* page background - Adjusted to lighter beige as per the index card */
+    --card-bg: #ffffff;
+    --accent: #163931;       /* dark green (for text, main titles) */
+    --hero-green: #e1f1e9;   /* Light green/teal background for hero elements */
+    --button-primary: #163931; /* Dark green button background */
+    --button-hover: #081815;
+    --text-muted: #666;
+    --card-width: 1100px;
 }
 
-/* Reset some default styles */
+/* Reset and Global Styles */
 *{box-sizing:border-box;}
-html,body{height:100%;margin:0;font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--accent);}
+html,body{
+    height:100%;
+    margin:0;
+    font-family:'Segoe UI', Arial, sans-serif;
+    background:var(--bg);
+    color:var(--accent);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+}
 
-.navbar{padding:14px 0;}
-.navbar ul{list-style:none;display:flex;gap:18px;padding-left:28px;margin:0;}
-.navbar a{color:var(--accent);text-decoration:none;font-weight:600;}
-.navbar a.active{text-decoration:underline;}
+/* NAV - Reusing index.css style for consistency */
+.navbar{
+    background: transparent;
+    padding: 24px 0 0 0; /* Increased top padding to match design spacing */
+    max-width: var(--card-width);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.navbar .logo {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent);
+    padding-left: 30px; /* Space from edge */
+}
+.navbar ul{
+    list-style:none;
+    display:flex;
+    gap:30px;
+    justify-content:flex-end;
+    padding-right: 30px; /* Space from edge */
+    margin:0;
+}
+.navbar a{
+    color: var(--accent);
+    text-decoration:none;
+    font-weight:600;
+    font-size:0.95rem;
+    transition: color 0.2s;
+}
+.navbar a:hover, .navbar a.active{
+    color: #4CAF50; /* A contrasting color for hover/active state */
+    text-decoration: none;
+}
 
-.center-container{min-height:calc(100vh - 140px);display:flex;align-items:center;justify-content:center;padding:36px 20px;}
+/* Main Container - Full width layout */
+.center-container{
+    width: 100%;
+    max-width: var(--card-width);
+    margin: 0 auto;
+    padding: 0 30px 60px 30px; /* Side padding and bottom margin for footer clearance */
+}
 
-.home-card{width:100%;max-width:420px;background:var(--card);border-radius:12px;padding:28px;text-align:center;border:2px solid rgba(108,99,255,0.14);box-shadow:0 6px 22px rgba(16,24,40,0.04);}
-.profile-photo{width:110px;height:110px;border-radius:50%;object-fit:cover;margin-bottom:14px;}
-h1{font-size:22px;margin:6px 0;color:var(--primary);}
-.author{font-size:0.98rem;margin-bottom:8px;}
-.desc{font-size:0.98rem;margin-bottom:14px;color:#4a4a4a;}
-.hero-buttons{margin-bottom:14px;}
-.btn{display:inline-block;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:700;box-shadow:0 2px 8px rgba(16,24,40,0.04);}
-.btn.primary{background:var(--primary);color:#fff;}
-.btn.secondary{background:var(--gold);color:#222;}
+/* --- HERO SECTION --- */
+.hero-section{
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns */
+    gap: 40px;
+    align-items: center;
+    padding: 80px 0; /* Vertical padding */
+}
 
-h2{color:var(--primary);margin-top:8px;margin-bottom:8px;}
-.feature-list{text-align:left;padding-left:18px;max-width:360px;margin:12px auto 0 auto;}
-.feature-list li{margin-bottom:10px;padding-left:16px;position:relative;}
-.feature-list li::before{content:"✔";position:absolute;left:0;color:var(--primary);}
+.hero-left h1{
+    font-size: 56px;
+    line-height: 1.1;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+    color: var(--accent);
+}
+.hero-left .subtitle{
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
 
-footer{position:fixed;left:0;right:0;bottom:0;padding:12px 0;text-align:center;background:transparent;color:#666;}
+/* Convert Button */
+.btn{
+    display:inline-block;
+    border:none;
+    border-radius: 8px;
+    padding: 14px 28px;
+    background: var(--button-primary);
+    color: #fff;
+    font-weight:700;
+    font-size:1rem;
+    text-decoration: none;
+    cursor:pointer;
+    transition: background 0.2s;
+}
+.btn:hover{
+    background: var(--button-hover);
+}
 
-/* Responsive adjustments for mobile */
-@media(max-width:480px){
-    .home-card{padding:18px;max-width:94vw;border-radius:10px;}
-    h1{font-size:18px;}
-    .feature-list{max-width:100%;}
-    .navbar ul{padding-left:12px;gap:12px;}
+/* Hero Image/Speaker Icon container */
+.hero-right{
+    background: var(--hero-green); /* Light green background */
+    border-radius: 12px;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 16 / 10; /* Maintain aspect ratio */
+}
+.speaker-icon-placeholder {
+    /* Assuming an SVG or image will be used here. This styles a placeholder. */
+    width: 80%;
+    height: 80%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23163931'%3E%3Cpath d='M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.06c1.48-.74 2.5-2.26 2.5-4.03zM14 3.23v2.06c2.89.81 5 3.51 5 6.71s-2.11 5.9-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+    opacity: 0.85; /* Slight transparency to match the mockup's feel */
+}
+
+/* --- FEATURE SECTION --- */
+.feature-section{
+    padding: 60px 0;
+    text-align: center;
+}
+.feature-section h2{
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 40px;
+    color: var(--accent);
+}
+
+.feature-grid{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Five equal columns */
+    gap: 20px;
+}
+
+.feature-card{
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 25px 20px;
+    border: 1px solid rgba(22,57,49,0.1);
+    box-shadow: 0 4px 15px rgba(22,57,49,0.05);
+    min-height: 200px; /* Ensure visual stability */
+}
+.feature-card .icon{
+    font-size: 2rem;
+    color: var(--accent);
+    margin-bottom: 15px;
+}
+.feature-card h3{
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    color: var(--accent);
+}
+.feature-card p{
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Footer - Simple style below the content */
+footer{ 
+    text-align:center; 
+    color: var(--text-muted); 
+    padding:22px 0 40px 0; 
+    font-size:0.95rem; 
+    border-top: 1px solid rgba(22,57,49,0.1);
+    max-width: var(--card-width);
+    margin: 0 auto;
+}
+
+
+/* --- Responsive Adjustments --- */
+
+/* Tablet/Smaller Desktop (3 columns) */
+@media (max-width: 1100px) {
+    .feature-grid{
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .feature-card:nth-child(4), .feature-card:nth-child(5) {
+        /* Center the last two items if needed, or let them flow */
+        grid-column: span 1;
+    }
+}
+
+/* Tablet (1 column hero, 2 column features) */
+@media (max-width: 768px) {
+    .hero-section {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        padding: 40px 0;
+    }
+    .hero-left h1{ font-size: 40px; }
+    .hero-right { order: -1; /* Move image above text on mobile */ }
+
+    .feature-grid{
+        grid-template-columns: repeat(2, 1fr);
+    }
+    /* Ensure the last card is full width or centered if odd number */
+    .feature-card:last-child {
+        grid-column: span 2;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+    .feature-section h2{ font-size: 28px; }
+
+    .navbar .logo, .navbar ul { padding-left: 20px; padding-right: 20px; }
+    .center-container { padding: 0 20px 60px 20px; }
+}
+
+/* Mobile (1 column everywhere) */
+@media (max-width: 500px) {
+    .hero-left h1{ font-size: 32px; }
+    .feature-grid{
+        grid-template-columns: 1fr;
+    }
+    .feature-card:last-child {
+        grid-column: span 1;
+        max-width: 100%;
+        margin: 0;
+    }
 }

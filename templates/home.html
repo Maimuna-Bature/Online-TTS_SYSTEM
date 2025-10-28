@@ -8,36 +8,68 @@
 </head>
 <body>
     <nav class="navbar">
+        <div class="logo">Unique TTS</div>
         <ul>
             <li><a class="active" href="{{ url_for('home') }}">Home</a></li>
-            <li><a href="{{ url_for('index') }}">Text-to-Speech</a></li>
+            <li><a href="{{ url_for('index') }}">Converter</a></li>
         </ul>
     </nav>
 
     <main class="center-container">
-        <div class="home-card">
-            <div class="profile-emoji" aria-hidden="true">👩🏽‍💻</div>
-            <h1>Unique TTS System</h1>
-            <p class="author">By <strong>Maimuna Abdulkadir Usman</strong></p>
-            <p class="desc">Convert text, documents and images to natural-sounding speech with a single click.</p>
-
-            <div class="hero-buttons">
-                <a class="btn primary" href="{{ url_for('index') }}">Text-to-Speech</a>
+        
+        <section class="hero-section">
+            <div class="hero-left">
+                <h1>Unique <br>Text-to-Speech <br>System</h1>
+                <p class="subtitle">It's the only way to convert text, documents, and even images to high-quality, natural-sounding audio. It is easy to use and provides speed in its process.</p>
+                <a class="btn" href="{{ url_for('index') }}">Start Converting</a>
             </div>
+            
+            <div class="hero-right">
+                <div class="speaker-icon-placeholder" aria-hidden="true"></div>
+            </div>
+        </section>
+        
+        <section class="feature-section">
+            <h2>All-in-One Solution</h2>
+            
+            <div class="feature-grid">
+                
+                <div class="feature-card">
+                    <div class="icon">📝</div>
+                    <h3>Text Input</h3>
+                    <p>Type or paste your text directly into the conversion box to generate speech instantly.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="icon">📄</div>
+                    <h3>Document Upload</h3>
+                    <p>Process entire documents, including **.docx** and **.pdf** files, for batch audio conversion.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="icon">🖼️</div>
+                    <h3>Image OCR</h3>
+                    <p>Extract text from image files (**JPG, PNG**) and convert the recognized text to audio automatically.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="icon">🎤</div>
+                    <h3>User Voice</h3>
+                    <p>Select from multiple high-quality, natural-sounding voices (US and UK options).</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="icon">⬇️</div>
+                    <h3>Download</h3>
+                    <p>Save your generated audio file as an **MP3** with a custom filename for easy access.</p>
+                </div>
+            </div>
+        </section>
 
-            <h2>Features</h2>
-            <ul class="feature-list">
-                <li><strong>Text Input:</strong> Type or paste text directly.</li>
-                <li><strong>Document Upload:</strong> Upload .docx or .pdf files.</li>
-                <li><strong>Image OCR:</strong> Extract text from images (.jpg, .png).</li>
-                <li><strong>Voice Selection:</strong> Multiple voice options (US/UK).</li>
-                <li><strong>Download:</strong> Save generated audio as MP3.</li>
-            </ul>
-        </div>
     </main>
 
     <footer>
-        <p>&copy; 2025 Maimuna Abdulkadir Usman</p>
+        <p>&copy; 2025 Maimuna Abdulkadir Usman. All rights reserved.</p>
     </footer>
 </body>
 </html>
