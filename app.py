@@ -62,7 +62,7 @@ def process_text_for_speech(text: str, is_image: bool = False) -> str:
     text = re.sub(r'([.?!,:;])([^\s])', r'\1 \2', text)
     return text.strip()
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/tts', methods=['GET', 'POST'])
 def index():
     error_message = None
     processed_text = ""
@@ -237,6 +237,7 @@ def serve_audio(audio_filename):
         return send_file(audio_path, mimetype='audio/mp3')
     return "File not found", 404
 
+@app.route('/')
 @app.route('/home')
 def home():
     return render_template('home.html')
