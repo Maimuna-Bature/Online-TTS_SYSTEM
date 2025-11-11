@@ -120,16 +120,27 @@ html,body{
 /* File upload */
 .file-upload-box{
     margin-top:18px;
-    border:1.5px solid rgba(22,57,49,0.25); 
+    /* dashed dark outline to match your screenshot */
+    border: 1.5px dashed rgba(22,57,49,0.18);
     background: var(--muted);
-    padding:20px; 
+    padding:20px;
     border-radius:8px;
     display:flex;
     align-items:center;
     justify-content:center;
     gap:12px;
     flex-direction:column;
-    position:relative; 
+    position:relative;
+    /* subtle inner contrast so dashed line stands out */
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+    transition: border-color .15s ease, background .12s ease;
+}
+
+/* optional: stronger border on drag-over or when focused/selected */
+.file-upload-box.drag-over,
+.file-upload-box:hover{
+    border-color: rgba(22,57,49,0.32);
+    background: rgba(247,234,223,0.95);
 }
 
 .file-upload-label {
@@ -175,37 +186,87 @@ html,body{
     display: block;
 }
 
-/* File size indicator */
-.file-size-indicator{
+/* meta row: pill left, "Voices:" label to the right on same line */
+.meta-row{
     display:flex;
     align-items:center;
-    gap:8px;
-    margin: 10px 0 12px 0; 
-    font-size:0.92rem;
-    color: var(--success);
-    justify-content: flex-start;
-    padding-left: 2px;
-    display: flex; 
-}
-.size-status-dot{
-    width:10px;height:10px;border-radius:50%;background:var(--success);
+    justify-content:flex-start; /* keep items starting from left like screenshot */
+    gap:12px;
+    margin-top:12px;
 }
 
-/* Voice select */
-.tts-select{
+/* compact green pill that matches screenshot 2 */
+.file-size-indicator{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:0.88rem;
+    color: var(--success);
+    background: rgba(39,174,96,0.08);
+    border: 1px solid rgba(39,174,96,0.12);
+    padding:6px 12px;
+    border-radius:14px;
+    box-shadow:none;
+}
+
+.file-size-indicator #file-size-text{
+    color: var(--success);
+    font-weight:700;
+}
+
+/* small dot */
+.size-status-dot{
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background: var(--success);
+    box-shadow:0 0 0 3px rgba(39,174,96,0.06);
+}
+
+/* simple inline label at right of pill */
+.voices-inline-label{ margin-left:6px; }
+.voices-label-text{
+    font-weight:700;
+    color:#222;
+    font-size:0.95rem;
+    display:inline-block;
+    padding-left:6px;
+}
+
+/* place select on its own row below (full width inside card) */
+.voices-row{
+    margin-top:10px;
+    display:block;
     width:100%;
+}
+
+/* ensure select is fluid but capped on wide layouts */
+.tts-select{
+    width:100%;             /* fill available container width */
+    max-width: 320px;       /* prevent oversized dropdown on large screens */
+    box-sizing: border-box;
     background:#081815;
     color:#cde6db;
     border-radius:8px;
     border:2px solid rgba(22,57,49,0.12);
-    padding:10px;
+    padding:10px 36px 10px 14px;
     font-size:15px;
-    margin-top:6px; 
-    appearance: none; 
+    appearance:none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23cde6db'%3E%3Cpath d='M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.25 4.25a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
+    background-repeat:no-repeat;
     background-position: right 10px center;
-    padding-right: 30px;
+}
+
+/* place select full width inside voices-row on small screens */
+@media (max-width: 480px) {
+    .voices-row { width:100%; }
+    .tts-select { max-width: none; width:100%; }
+}
+
+/* responsive fallback: stack the label row on very small screens */
+@media (max-width:420px){
+    .meta-row{ flex-direction:column; align-items:flex-start; gap:8px; }
+    .voices-row .tts-select{ width:100%; }
 }
 
 /* Convert button */

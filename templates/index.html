@@ -32,20 +32,27 @@
                     <div class="file-name">{% if file_name %}{{ file_name }} selected{% endif %}</div>
                 </div>
 
-                <div id="file-size-indicator" class="file-size-indicator" {% if not file_name %}style="display:none"{% endif %}>
-                    <span class="size-status-dot"></span>
-                    <span id="file-size-text">{% if file_size %}{{ file_size }}{% endif %}</span>
-                    
-<label class="form-label" style="margin-left:auto; margin-bottom:0; font-weight:700;">Voices:</label>
+                <!-- file-size pill + voices label (same row) -->
+                <div class="meta-row">
+                    <div id="file-size-indicator" class="file-size-indicator" {% if not file_name %}style="display:none"{% endif %}>
+                        <span id="file-size-text">{% if file_size %}{{ file_size }}{% endif %}</span>
+                        <span class="size-status-dot" aria-hidden="true"></span>
+                    </div>
+
+                    <div class="voices-inline-label">
+                        <span class="voices-label-text">Voices:</span>
+                    </div>
                 </div>
-                
-                
-<label class="form-label" id="standalone-voices-label" {% if file_name %}style="display:none;"{% endif %}>Voices:</label>
-                <select name="voice" class="tts-select" aria-label="Select voice">
-                    {% for label, value in edge_tts_voices.items() %}
-                    <option value="{{ value }}" {% if selected_voice == value %}selected{% endif %}>{{ label }}</option>
-                    {% endfor %}
-                </select>
+
+                <!-- voices select below the pill/label row -->
+                <div class="voices-row">
+                    <select id="voice-select" name="voice" class="tts-select" aria-label="Select voice">
+                        {% for label, value in edge_tts_voices.items() %}
+                        <option value="{{ value }}" {% if selected_voice == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <!-- end meta/voices -->
 
                 <button type="submit" class="btn convert-btn">Convert</button>
             </form>
