@@ -61,6 +61,10 @@ html,body{
     text-decoration: none;
 }
 
+.brand-emoji{ 
+    font-size:15px; 
+}
+
 /* Main Container */
 .center-container{
     width: 100%;
